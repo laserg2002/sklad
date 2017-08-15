@@ -10,18 +10,13 @@ import javax.validation.groups.Default;
 @Table(name = "phone")
 public class Phone {
 
-    @Id
-    private int id;
-
-
     @ManyToOne
-    @JoinTable(name = "person")
-//    @JoinColumn(name="id_person", nullable=false)
     private Person person;
 
     @NotNull
-    @NaturalId
-    @Column private String phone;
+    @Id
+    @Column
+    private String phone;
 
     private boolean viber;
 

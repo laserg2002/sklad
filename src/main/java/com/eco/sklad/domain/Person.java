@@ -25,12 +25,10 @@ public class Person {
     @JoinColumn(name = "id_person")
     private Address address;
 
-    @OneToMany
-    @JoinColumn(name = "id_person")
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy="person", fetch = FetchType.LAZY)
     private List<Phone> phoneList = new ArrayList<>();
 
-    @OneToMany
-    @JoinColumn(name = "id_person")
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy="person", fetch = FetchType.LAZY)
     private List<Email> emailList = new ArrayList<>();
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)

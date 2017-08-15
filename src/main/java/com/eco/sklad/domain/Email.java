@@ -5,19 +5,14 @@ import org.hibernate.annotations.NaturalId;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Entity
+    @Entity
     @Table (name = "email")
     public class Email {
 
-    @Id
-    private int id;
-
-    @ManyToOne
-    @JoinTable(name = "person")
-//    @JoinColumn(name="id")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Person person;
 
-    @NaturalId
+    @Id
     @NotNull
     @Column(name="e_mail")
     private String email;
