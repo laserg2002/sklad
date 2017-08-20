@@ -23,6 +23,10 @@ public class Phone {
     public Phone() {
     }
 
+    public Phone(String phone) {
+        this.phone = phone;
+    }
+
     public Phone(Person person, String phone, boolean viber) {
         this.person = person;
         this.phone = phone;

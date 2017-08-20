@@ -25,7 +25,7 @@ public class Person {
     @JoinColumn(name = "id_person")
     private Address address;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy="person", fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy="person", fetch = FetchType.LAZY)
     private List<Phone> phoneList = new ArrayList<>();
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy="person", fetch = FetchType.LAZY)
@@ -43,6 +43,14 @@ public class Person {
     public Person(String name, String lastName) {
         Name = name;
         LastName = lastName;
+    }
+
+    public Person(String name, String lastName, Address address, List<Phone> phoneList, List<Email> emailList) {
+        Name = name;
+        LastName = lastName;
+        this.address = address;
+        this.phoneList = phoneList;
+        this.emailList = emailList;
     }
 
     public Person(String name, String lastName, Address address, List<Phone> phoneList, List<Email> emailList, Set<Roles> roles) {
@@ -110,5 +118,18 @@ public class Person {
 
     public void setRoles(Set<Roles> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "idPerson=" + idPerson +
+                ", Name='" + Name + '\'' +
+                ", LastName='" + LastName + '\'' +
+                ", address=" + address +
+                ", phoneList=" + phoneList +
+                ", emailList=" + emailList +
+                ", roles=" + roles +
+                '}';
     }
 }

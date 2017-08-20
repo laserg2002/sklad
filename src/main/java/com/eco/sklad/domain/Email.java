@@ -20,7 +20,11 @@ import javax.validation.constraints.NotNull;
     public Email() {
     }
 
-    public Email(Person person, String email) {
+        public Email(String email) {
+            this.email = email;
+        }
+
+        public Email(Person person, String email) {
         this.person = person;
         this.email = email;
     }
@@ -44,7 +48,7 @@ import javax.validation.constraints.NotNull;
     @Override
     public String toString() {
         return "Email{" +
-                ", e-mail='" + email + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 }

@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Producer Form</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h2>Особиста інформація</h2>
+<form action="#" th:action="@{/person/add}" th:object="${personDTO}" method="post">
+    <table>
+        <tr>
+            <td> Ім'я:</td>
+            <td><input type="text" th:field="*{name}" /></td>
+        </tr>
+        <tr th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Category Error</tr>
+
+        <tr>
+            <td> Прізвище </td>
+            <td><input type="text" th:field="*{lastName}" autocomplete="off"/></td>
+        </tr>
+        <tr>
+            <td> Місто або область </td>
+            <td><input type="text" th:field="*{city}" autocomplete="off"/></td>
+        </tr>
+        <tr>
+            <td> Поштовий індекс </td>
+            <td><input type="text" th:field="*{postIndex}" autocomplete="off"/></td>
+        </tr>
+        <tr>
+            <td> Населений пункт </td>
+            <td><input type="text" th:field="*{street}" autocomplete="off"/></td>
+        </tr>
+        <tr>
+            <td> Інформація щодо доставки </td>
+            <td><input type="text" th:field="*{comment}" autocomplete="off"/></td>
+        </tr>
+        <tr>
+            <td> Телефон №1 </td>
+            <td><input type="text" th:field="*{phone1}" autocomplete="off"/></td>
+        </tr>
+        <tr>
+            <td> Телефон №2 </td>
+            <td><input type="text" th:field="*{phone2}" autocomplete="off"/></td>
+        </tr>
+        <tr>
+            <td> E-mail №1 </td>
+            <td><input type="text" th:field="*{email1}" autocomplete="off"/></td>
+        </tr>
+        <tr>
+            <td> E-mail №2 </td>
+            <td><input type="text" th:field="*{email2}" autocomplete="off"/></td>
+        </tr>
+    </table>
+    <p><input type="submit" value="Добавити" /> <input type="reset" value="Reset" /></p>
+</form>
+</body>
+</html>
