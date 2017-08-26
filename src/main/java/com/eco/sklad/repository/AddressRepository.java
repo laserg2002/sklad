@@ -11,4 +11,8 @@ public interface AddressRepository extends JpaRepository<Address, Integer>{
     @Query(value = "insert into address (id_owner, city_name, post_index, street_address, comment) " +
             "VALUES (?1, ?2, ?3, ?4, ?5)", nativeQuery = true)
     void addAddress(int id, String city, String index, String street, String comment);
+
+    @Modifying
+    @Query(value = "delete from address where id_owner=?1", nativeQuery = true)
+    void delete(int id);
 }

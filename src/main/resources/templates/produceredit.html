@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Producer Form</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+<form action="producerEditPost" th:action="@{/producerEdit}" th:object="${producer}" method="post">
+    <p th:text="${producer.fullName}"></p>
+    <table>
+        <ul th:if="${#fields.hasErrors('*')}">
+            <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+        </ul>
+        <tr>
+            <td> Виробник:</td>
+            <td><input type="text" th:field="*{idPr}" th:hidden="true" />
+                <input type="text" th:attr="name=*{fullName}"/></td>
+            <!--th:disabled="true"/></td>-->
+        </tr>
+        <tr>
+            <td> Категорія виробника </td>
+            <td><input type="text" th:field="*{categoryProducer}" autocomplete="off"/></td>
+            <td th:if="${#fields.hasErrors('categoryProducer')}" th:errors="*{categoryProducer}">Category Error</td>
+
+        </tr>
+        <tr>
+            <td> Країна</td>
+
+            <td><select th:object="${country}" th:name="id">
+                <option th:each="country : ${countrylist}"
+                        th:value="${country.id}"
+                        th:text="${country.cName}"
+                        th:selected = "${country.id} == ${producer.country.id}">Wireframe</option>
+            </select>
+            </td>
+        </tr>
+
+    </table>
+    <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+</form>
+</body>
+</html>

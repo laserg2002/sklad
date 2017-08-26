@@ -15,8 +15,8 @@ public class Address {
     @JoinColumn(name = "id_owner")
     private Person person;
 
-    @Column(name="post_index")
-    private String index;
+    @Column(name="region")
+    private String region;
 
     @Column(name="city_name")
     private String cityName;
@@ -52,12 +52,12 @@ public class Address {
         this.idAddress = idAddress;
     }
 
-    public String getIndex() {
-        return index;
+    public String getRegion() {
+        return region;
     }
 
-    public void setIndex(String index) {
-        this.index = index;
+    public void setIndex(String region) {
+        this.region = region;
     }
 
     public String getCityName() {
@@ -88,7 +88,7 @@ public class Address {
     public String toString() {
         return "Address{" +
                 "idAddress=" + idAddress +
-                ", index='" + index + '\'' +
+                ", region='" + region + '\'' +
                 ", cityName='" + cityName + '\'' +
                 ", street='" + street + '\'' +
                 ", comment='" + comment + '\'' +

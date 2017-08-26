@@ -22,11 +22,19 @@ public interface PersonRepository extends CrudRepository<Person, Integer> {
     @Query(value = "insert into person (name, last_name) VALUES (?1, ?2)", nativeQuery = true)
     void addPerson(String name, String lastName);
 
+    @Modifying
+    @Query(value = "UPDATE person set name=?2, last_name=?3 WHERE id_person = ?1", nativeQuery = true)
+    void updatePerson(Integer id, String name, String lastName);
+
 
     @Query(value = "select id_person from person where name = ?1 and last_name = ?2", nativeQuery = true)
     int findByNameAndLastName(String name, String lastName);
 
     Person findByIdPerson(Integer id);
+
+    @Modifying
+    @Query(value = "delete from person where id_person=?1", nativeQuery = true)
+    void delete(Integer ids);
 
 //    Person findByEmail(Integer id);
 
