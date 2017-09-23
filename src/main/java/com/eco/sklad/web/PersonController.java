@@ -27,7 +27,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Controller
 @RequestMapping(value="/person")
-public class PersonControler {
+public class PersonController {
     @Autowired
     PersonService personService;
     @Autowired

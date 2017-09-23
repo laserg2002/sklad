@@ -1,8 +1,10 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+
 <head>
-      <title>Bootdesk ckets</title>
+      <title>особиста інформація</title>
       <meta charset="UTF-8"/>
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
@@ -65,7 +67,8 @@
 
 
             <h4> Особисті данні </h4>
-
+            <span>Ви залоговані як: </span>
+            <span sec:authentication="name">Bob</span>
 
             <table class="table table-condensed text-center">
                 <thead>
