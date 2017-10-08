@@ -22,6 +22,7 @@ public class Order {
 
     private BigDecimal orderDiscount;
     private BigDecimal totalOrder;
+    private Boolean finalized=false;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderLines> orderLines = new ArrayList<>();
@@ -43,6 +44,14 @@ public class Order {
 
     public User getSalesManager() {
         return salesManager;
+    }
+
+    public Boolean getFinalized() {
+        return finalized;
+    }
+
+    public void setFinalized(Boolean finalized) {
+        this.finalized = finalized;
     }
 
     public void setSalesManager(User salesManager) {

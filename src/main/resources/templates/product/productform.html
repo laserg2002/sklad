@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+    <meta charset="UTF-8"/>
+    <title>Номенклатура</title>
+</head>
+<body>
+<div class="container-fluid ">
+    <div class="col-sm-12 text-center">
+        <h3 class="center"> Номенклатура</h3>
+    </div>
+    <div class="panel-body">
+        <div>
+            <ul class="text-danger">
+                <li th:each="err : ${#fields.errors('*')}" th:text="${err}" />
+            </ul></div>
+
+        <form class="form-horizontal" action="showAllProducts" th:action="@{/product/add}" th:object="${product}" method="post">
+
+                <!--private Set<CategoryProduct> categoryProducts = new HashSet<>();-->
+            <!--<div class="col-sm-3 text-right input-sm" ><label class="control-label">*Номенклатура:</label></div>-->
+            <input type='text' th:hidden="true" th:field="*{id}"/>
+
+            <div class="form-group">
+
+                <div class="col-sm-3 text-right" ><label class="control-label">*Номенклатура:</label></div>
+                <div class="col-sm-7 input-sm"><input type='text' class='form-control' th:field="*{shortName}" value='' placeholder='Usernam'/></div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-3 text-right"><label class="control-label">*Повна назва:</label></div>
+                <div class="col-md-7"><input type='text' class='form-control' th:field="*{longName}" value='' placeholder='Usernam'/></div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-3 text-right"><label class="control-label">Part Number:</label></div>
+                <div class="col-md-7"><input type='text' class='form-control' th:field="*{partNumber}" value='' placeholder='Part Number'/></div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-3 text-right"><label class="control-label">Короткий опис:</label></div>
+                <div class="col-md-7"><textarea class='form-control' row='5'
+                                                th:field="*{description}" value="" placeholder='Usernam'/></div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-3 text-right"><label class="control-label">Фірма виробник:</label></div>
+
+                <div class="col-md-2"><select class="form-control input-sm" th:object="${product.producer}" th:field="*{idPr}">
+                        <option th:each="producer : ${producerlist}"
+                                th:value="${producer.idPr}"
+                                th:text="${producer.fullName}">
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-2 text-right"><label class="control-label">Одиниця виміру:</label></div>
+                <div class="col-md-2"><select class="form-control input-sm" th:object="${product.pcs}" th:field="*{pcs}">
+                    <!--${T(com.eco.sklad.domain.Pcs).values()}"-->
+                    <option th:each="pcs : ${pcslist}"
+                            th:value="${product.pcs}"
+                            th:text="${pcs.description}">
+                    </option>
+                </select>
+                </div>
+            </div>
+
+
+
+
+            <hr style="width: 83%; color: black; height: 1px; background-color:lightgray;" />
+
+            <div class="form-group">
+                <!--<div class= "col-md-1 text-right"><label class="control-label">*Ім'я:</label></div>-->
+                <!--<div class="col-md-4"><input class="form-control" type="text" placeholder="ім'я" th:field="*{firstName}" autocomplete="off"/></div>-->
+                <!--<div class= "col-md-2 text-right"><label class="control-label">Прізвище:</label></div>-->
+                <!--<div class="col-md-4"><input class="form-control" type="text" placeholder="прізвище" th:field="*{lastName}" autocomplete="off"/>-->
+                <!--</div>-->
+            </div>
+
+
+            <!--<div class="col-md-7">-->
+            <div class="form-group">
+                <!--<div class= "col-md-1 text-right"><label class="control-label">Область:</label></div>-->
+                <!--<div class="col-md-4"><input class="form-control" type="text" placeholder="область" th:field="*{region}" autocomplete="off"/></div>-->
+                <!--<div class= "col-md-2 text-right"><label class="control-label">*Місто:</label></div>-->
+                <!--<div class="col-md-4"><input class="form-control" type="text" placeholder="місто" th:field="*{city}" autocomplete="off"/></div>-->
+            </div>
+
+
+            <div class="form-group">
+                <!--<div class= "col-md-1 text-right"><label class="control-label">Адреса:</label></div>-->
+                <!--<div class="col-md-4">-->
+                    <!--<textarea class="form-control" row="5" placeholder="район, населений пункт..." th:field="*{street}" autocomplete="off"/></div>-->
+                <!--<div class= "col-md-2 text-right"><label class="control-label">Адреса доставки:</label></div>-->
+                <!--<div class="col-md-4">-->
+                    <!--<textarea class="form-control" row="5" placeholder="служба доставки, номер відділення" th:field="*{comment}" autocomplete="off"/></div>-->
+            </div>
+            <div class="form-group">
+                <!--<div class= "col-md-1 text-right"><label class="control-label">Телефон:</label></div>-->
+                <!--<div class="col-md-3">-->
+                    <!--<input class="form-control" type="text" placeholder="номер телефона" th:field="*{phone}" autocomplete="off"/></div>-->
+
+                <!--<div class="checkbox col-md-1">-->
+                    <!--<label><input type="checkbox" th:field="*{viber}">Viber</input></label>-->
+                <!--</div>-->
+
+                <!--</div>-->
+                <!--<div class= "col-md-2 text-right"><label class="control-label">еmail №2:</label></div>-->
+                <!--<div class="col-md-4">-->
+                <!--<input class="form-control" type="text" placeholder="додаткова електронна пошта" th:field="*{email2}" autocomplete="off"/></div>-->
+            </div>
+
+
+            <hr style="width: 83%; color: black; height: 1px; background-color:lightgray;" />
+
+
+
+            <div class= "col-md-9 text-right">
+                <input type="submit" value="Підтвердити" class="btn btn-primary btn-lg "/></div>
+            <div class= "col-md-1 text-right">
+                <input type="reset" value="Відмінити" class="btn btn-warning btn-lg "/>
+            </div>
+        </form>
+
+    </div></div>
+
+<!--</div>-->
+</body>
+</html>

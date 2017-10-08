@@ -15,15 +15,23 @@ public class Product {
     private String longName;
 //    private String serialNumber;
     private String partNumber;
-    private String odVymiru;
+    private String description;
+
+    @Enumerated(EnumType.STRING)
+    private Pcs pcs=Pcs.PCS_PCS;
+
+//    @Enumerated(EnumType.STRING)
+//    private ProductState productState;
 
     @ManyToOne
-    @JoinColumn(name = "id_pr", updatable=true, insertable=true)
-    private Producer producer;
+    @JoinColumn(name = "id_pr")
+    private Producer producer=new Producer();
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<ProductsOnStock> productsOnStocks = new ArrayList<>();
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<SupplyLines> supplyLinesList = new ArrayList<>();
-
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "product_categories", joinColumns = @JoinColumn(name = "id_product"),
@@ -31,6 +39,30 @@ public class Product {
     private Set<CategoryProduct> categoryProducts = new HashSet<>();
 
     public Product() {
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+//    public ProductState getProductState() {
+//        return productState;
+//    }
+//
+//    public void setProductState(ProductState productState) {
+//        this.productState = productState;
+//    }
+
+    public List<ProductsOnStock> getProductsOnStocks() {
+        return productsOnStocks;
+    }
+
+    public void setProductsOnStocks(List<ProductsOnStock> productsOnStocks) {
+        this.productsOnStocks = productsOnStocks;
     }
 
     public int getId() {
@@ -73,12 +105,12 @@ public class Product {
         this.partNumber = partNumber;
     }
 
-    public String getOdVymiru() {
-        return odVymiru;
+    public Pcs getPcs() {
+        return pcs;
     }
 
-    public void setOdVymiru(String odVymiru) {
-        this.odVymiru = odVymiru;
+    public void setPcs(Pcs pcs) {
+        this.pcs = pcs;
     }
 
     public Producer getProducer() {
@@ -95,5 +127,21 @@ public class Product {
 
     public void setCategoryProducts(Set<CategoryProduct> categoryProducts) {
         this.categoryProducts = categoryProducts;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", shortName='" + shortName + '\'' +
+                ", longName='" + longName + '\'' +
+                ", partNumber='" + partNumber + '\'' +
+                ", description='" + description + '\'' +
+                ", pcs=" + pcs +
+                ", producer=" + producer +
+                ", productsOnStocks=" + productsOnStocks +
+                ", supplyLinesList=" + supplyLinesList +
+                ", categoryProducts=" + categoryProducts +
+                '}';
     }
 }

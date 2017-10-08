@@ -13,7 +13,9 @@ import java.util.Optional;
 
 @Entity
 public class Contragent {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @NaturalId
@@ -34,6 +36,12 @@ public class Contragent {
 
     @OneToMany(mappedBy = "customer", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Order> orderList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "contragent", orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Pko> pkoList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "contragent", orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Rko> rkoList = new ArrayList<>();
 
     public Contragent() {
     }

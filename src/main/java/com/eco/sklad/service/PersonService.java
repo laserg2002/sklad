@@ -70,7 +70,7 @@ public class PersonService {
 
     public PersonDTO findOne (Integer id){
         Person person = personRe.findByIdPerson(id);
-        System.out.println(person);
+//        System.out.println(person);
         List<Phone> phoneList = phoneRe.findTwo(id);
         List<Email> emailList = emailRe.findTwo(id);
         PersonDTO personDTO = new PersonDTO();

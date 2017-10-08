@@ -33,6 +33,14 @@ public class User implements UserDetails{
 //    @LazyToOne( LazyToOneOption.NO_PROXY )
     private Contragent contragent;
 
+    @OneToOne(
+            mappedBy = "user",
+//            cascade = CascadeType.ALL,
+            optional = true,
+            orphanRemoval = false,
+            fetch = FetchType.LAZY)
+    private Employee employee;
+
     @ManyToMany(
             fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)

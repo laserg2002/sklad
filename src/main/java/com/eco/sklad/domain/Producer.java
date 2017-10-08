@@ -8,6 +8,8 @@ import javax.naming.Name;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name= "producer")
@@ -25,7 +27,10 @@ public class Producer {
     @Column(name="pr_category")
     private String categoryProducer;
 
-    @ManyToOne
+    @OneToMany(mappedBy = "producer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Product> products = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id", updatable=true, insertable=true)
     private Country country;
 
@@ -60,6 +65,14 @@ public class Producer {
 
     public void setCategoryProducer(String categoryProducer) {
         this.categoryProducer = categoryProducer;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     public Country getCountry() {

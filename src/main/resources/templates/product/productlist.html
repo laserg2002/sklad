@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Список номенклатури</title>
+</head>
+<body style="background-color:lightcyan">
+<div th:replace="header"> content here </div>
+
+<div class="col-sm-12 text-center">
+    <h4><strong>Список номенклатури</strong></h4>
+</div>
+
+<div class="container-fluid text-center">
+    <div class="col-sm-2 sidenav">
+
+        <p><a href="/product/new" class="btn btn-info btn-lg">
+            <span class="glyphicon glyphicon-user"></span> Новий юзер
+        </a></p>
+
+    </div>
+
+
+<div class="col-sm-8 text-center" style="background-color:white">
+
+    <table class="table table-condensed text-center">
+        <thead>
+        <tr>
+            <th> id </th>
+            <th class="text-center"> Назва </th>
+            <th class="text-center"> Повна назва </th>
+            <th class="text-center"> Part number </th>
+            <th class="text-center"> Фірма виробник </th>
+            <th class="text-center"> Од. виміру </th>
+            <th>      </th>
+            <th>      </th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="product : ${productlist}">
+            <td th:text="${product.id}">Red chair</td>
+            <td th:text="${product.shortName}">Red chair</td>
+            <td th:text="${product.longName}">Red chair</td>
+            <td th:text="${product.partNumber}">Red chair</td>
+            <td th:text="${product.producer.fullName}">Red chair</td>
+            <td th:text="${product.pcs.description}">Red chair</td>
+            <td><a th:href="@{'/product/edit/'+${product.id}}"><span class="glyphicon glyphicon-edit"></span></a></td>
+            <td><a th:href="@{'/product/delete/'+${product.id}}"><span class="glyphicon glyphicon-trash"></span></a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</div>
+
+</body>
+</html>

@@ -18,6 +18,7 @@ public class OrderLines {
     private int quantity;
     private BigDecimal salePrice;
     private BigDecimal discount;
+    private String salesType;
 
     public OrderLines() {
     }
@@ -44,6 +45,14 @@ public class OrderLines {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public String getSalesType() {
+        return salesType;
+    }
+
+    public void setSalesType(String salesType) {
+        this.salesType = salesType;
     }
 
     public int getQuantity() {

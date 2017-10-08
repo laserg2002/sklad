@@ -1,5 +1,4 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <nav class="navbar navbar-inverse">
@@ -14,31 +13,28 @@
         </div>
         <div class="collapse navbar-collapse" id="myNavbar">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Прихід</a></li>
-                <li class="disabled"><a href="#">Замовлення</a></li>
-                <li class="disabled"><a href="#">Розхід</a></li>
-                <li class="disabled"><a href="#">Склад</a></li>
+                <li><a href="#">Прихід</a></li>
+                <li><a href="#">Замовлення</a></li>
+                <li><a href="#">Розхід</a></li>
+                <li><a href="#">Склад</a></li>
                 <li><a href="#">Каса</a></li>
-                <li><a href="#">Товари</a></li>
-                <li><a href="#">Контрагенти</a></li>
+                <li><a href="/product">Товари</a></li>
+                <li><a href="/product">Контрагенти</a></li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">Довідники<span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li class="disabled"><a href="#">Склади</a></li>
-                        <li class="disabled"><a href="#">Каси</a></li>
+                        <li><a href="#">Склади</a></li>
+                        <li><a href="#">Каси</a></li>
                         <li><a href="/person">Люди</a></li>
                         <li><a href="#">Категорії товарів</a></li>
-                        <li class="disabled"><a href="#">Категорії контрагентів</a></li>
+                        <li><a href="#">Категорії контрагентів</a></li>
                         <li><a href="/producers">Виробники</a></li>
                     </ul></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a>
-                    <span>Ви залоговані як</span><span sec:authentication="name">Bob</span></li>
-
+                    <span style="color:Tomato;">Ви залоговані як :  </span><span style="color:Tomato;" sec:authentication="name">Bob</span></li>
             </ul>
-
-
         </div>
     </div>
 </nav>
