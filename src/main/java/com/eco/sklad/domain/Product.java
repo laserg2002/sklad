@@ -1,5 +1,7 @@
 package com.eco.sklad.domain;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -11,6 +13,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    @NotBlank(message = "введіть назву")
     private String shortName;
     private String longName;
 //    private String serialNumber;

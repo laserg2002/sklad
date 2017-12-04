@@ -7,7 +7,7 @@ import java.util.Set;
 @Entity
 public class CategoryProduct {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @ManyToMany(mappedBy = "categoryProducts", fetch = FetchType.LAZY)
     private Set<Product> products = new HashSet<>();

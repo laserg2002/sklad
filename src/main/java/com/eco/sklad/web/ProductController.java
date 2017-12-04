@@ -55,26 +55,22 @@ public class ProductController {
         public String addProductForm( ModelMap model) {
             List<Pcs> pcsList = Arrays.asList(Pcs.values());
             model.addAttribute("product", new Product());
-//            model.addAttribute("producerlist", producerService.findAll());
-//            model.addAttribute("pcslist", Arrays.asList(Pcs.values()));
             return "product/productform";
         }
 
-
         @RequestMapping(value="/add", method = RequestMethod.POST)
         public String addProductPost(@Valid @ModelAttribute Product product, BindingResult bindingResult) {
-
             if (bindingResult.hasErrors()) {
-                return "product/add";
+                return "product/productform";
             }
-
             productService.addProduct(product);
-            return "product/productlist";
+            return "redirect:/product";
         }
+
         @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
         public String delete(@PathVariable int id, ModelMap model) {
             productService.delete(id);
-            return "product/productlist";
+            return "redirect:/product";
         }
 
     }

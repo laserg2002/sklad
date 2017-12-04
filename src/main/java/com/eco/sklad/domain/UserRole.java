@@ -9,6 +9,7 @@ import java.util.Set;
 public class UserRole {
 
 @Id
+@GeneratedValue(strategy = GenerationType.AUTO)
 private int id;
 
 @ManyToMany(mappedBy = "authorities")

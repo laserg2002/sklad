@@ -15,7 +15,7 @@ import java.util.Optional;
 public class Contragent {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @NaturalId
@@ -107,5 +107,21 @@ public class Contragent {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    @Override
+    public String toString() {
+        return "Contragent{" +
+                "id=" + id +
+                ", balansName='" + balansName + '\'' +
+                ", companyName='" + companyName + '\'' +
+                ", allowMinus=" + allowMinus +
+                ", balansCredit=" + balansCredit +
+                ", user=" + user +
+                ", suppliesList=" + suppliesList +
+                ", orderList=" + orderList +
+                ", pkoList=" + pkoList +
+                ", rkoList=" + rkoList +
+                '}';
     }
 }

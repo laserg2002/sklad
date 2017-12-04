@@ -9,6 +9,7 @@ import java.util.Date;
 public class ProductsOnStock {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @ManyToOne

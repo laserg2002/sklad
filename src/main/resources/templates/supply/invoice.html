@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Прихідна накладна</title>
+</head>
+<body style="background-color:lightcyan">
+
+<div th:replace="header"> content here </div>
+
+<div class="col-sm-12 text-center">
+    <h4><strong>Прихідна накладна</strong></h4>
+</div>
+
+
+<div class="panel-body">
+    <div>
+        <ul class="text-danger">
+            <li th:each="err : ${#fields.errors('*')}" th:text="${err}" />
+        </ul></div>
+
+    <form class="form-horizontal" action="showAllInvoices"
+          oninput="totalamount=${invoicelinedto.quantity * invoicelinedto.price}"
+                    th:action="@{/invoice/add}" th:object="${invoicelinedto}" method="post">
+
+        <!--private BigDecimal orderDiscount = new BigDecimal("0");-->
+        <!--private BigDecimal orderFee = new BigDecimal("0");-->
+        <!--private BigDecimal totalOrder = new BigDecimal("0");-->
+        <!--private Boolean finalized=false;-->
+        <!--private User salesManager=new User();-->
+        <!--private List<InvoiceLinesDTO> orderLines = new ArrayList<>();-->
+
+
+        <div class="form-group">
+
+        <div class="col-sm-3 text-right" ><label class="control-label">*Постачальник:</label></div>-->
+        <div class="col-md-3">
+            <div class="form-control" th:text="${invoicedto.contragentName}">fffffffff</div>
+         </div>        </div>
+
+
+
+        <div class="invoicelines" th:unless="${#lists.isEmpty(invoicelineslist)}">
+        <table class="table table-condensed text-center">
+            <thead>
+            <tr>
+                <th th:text="id">Date Planted</th>
+                <th th:text="Товар">Date Planted</th>
+                <th th:text="Кількість">Covered</th>
+                <th th:text="Ціна">Type</th>
+                <th th:text="Сума зі знижками">Features</th>
+                <th th:text="Операція">Rows</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="invoiceLinesDTO : ${invoicelineslist}">
+                <td th:text="${invoiceLinesDTO.id}">13/01/2011</td>
+                <td th:text="${invoiceLinesDTO.productId}">13/01/2011</td>
+                <td th:text="${invoiceLinesDTO.quantity}">yes</td>
+                <td th:text="${invoiceLinesDTO.itemTotal}">yes</td>
+                <td th:text="${invoiceLinesDTO.salesType}">Electric Heating, Turf</td>
+                <td><a th:href="@{'/invoiceline/edit/'+${invoiceLinesDTO.id}}"><span class="glyphicon glyphicon-edit"></span></a></td>
+                <td><a th:href="@{'/invoiceline/delete/'+${invoiceLinesDTO.id}}"><span class="glyphicon glyphicon-trash"></span></a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+        <hr style="width: 83%; color: black; height: 1px; background-color:lightgray;" />
+
+        <!--private BigDecimal discount = new BigDecimal("0");-->
+        <!--private BigDecimal extraFee = new BigDecimal("0");-->
+        <!--private BigDecimal finalPrice = new BigDecimal("0");-->
+        <!--private BigDecimal itemTotal = new BigDecimal("0");-->
+        <!--private String salesType;-->
+
+        <div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th width="200" th:text="Товар">Date Planted</th>
+                        <th width="150" th:text="Кількість">Covered</th>
+                        <th width="100" th:text="Ціна">Type</th>
+                        <th width="100" th:text="Разом">Type</th>
+                        <th width="100" th:text="x">Type</th>
+                        <!--<th th:text="Сума зі знижками">Features</th>-->
+                        <!--<th th:text="Операція">Rows</th>-->
+                    </tr>
+            </thead>
+                <tbody>
+                <tr>
+                    <td width="190" th:text="*{productName}">13/01/2011</td>
+                    <td width="90" > <input type='text' th:field="${invoicelinedto.quantity}" autocomplete="off"/></td>
+                    <td width="90" > <input type='text' th:field="${invoicelinedto.price}" autocomplete="off"/></td>
+                    <td width="90"> <output name="totalamount" id="totalamount"/></td>
+                                <!--"${invoicelinedto.quantity * invoicelinedto.price}"></td>-->
+
+                    <td><a th:href="@{'/invoiceline/edit/'+${invoicelinedto.id}}">
+                        <input type="submit" value="Додати до накладної" class="btn btn-primary btn-sm "/></a></td>
+                    <!--<td><a th:href="@{'/invoiceline/delete/'+${invoicelinedto.id}}"><span class="glyphicon glyphicon-trash"></span></a></td>-->
+                </tr>
+                </tbody>
+
+
+            </table>
+
+        <!--<div class="form-group">-->
+            <!--<div class="col-md-3 text-right"><label class="control-label">*Кількість:</label></div>-->
+            <!--<div class="col-md-7"><input type='text' class='form-control' th:field="*{quantity}" value='' placeholder='Usernam'/></div>-->
+        <!--</div>-->
+
+        <div class= "col-md-9 text-right">
+            <input type="submit" value="Підтвердити" class="btn btn-primary btn-lg "/></div>
+        <div class= "col-md-1 text-right">
+            <input type="reset" value="Відмінити" class="btn btn-warning btn-lg "/>
+        </div>
+        </div>
+
+
+    </form>
+
+</div>
+</body>
+</html>
