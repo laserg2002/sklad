@@ -23,9 +23,12 @@
             <li th:each="err : ${#fields.errors('*')}" th:text="${err}" />
         </ul></div>
 
+
+    <!--///////////////////////////////ФОРМА//////////////////////////-->
     <form class="form-horizontal" action="showAllInvoices"
           oninput="totalamount=${invoicelinedto.quantity * invoicelinedto.price}"
                     th:action="@{/invoice/add}" th:object="${invoicelinedto}" method="post">
+
 
         <!--private BigDecimal orderDiscount = new BigDecimal("0");-->
         <!--private BigDecimal orderFee = new BigDecimal("0");-->
