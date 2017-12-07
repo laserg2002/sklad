@@ -70,11 +70,14 @@ public class InvoiceInController {
     public String selectProduct(@RequestParam("id") Integer id, ModelMap model){
         InvoiceLineDTO invoiceLineDTO = new InvoiceLineDTO();
         invoiceLineDTO.setProductId(id);
-//        System.out.println(invoiceDTO);
+        ///////////////
+        System.out.println(invoiceDTO.getInvoiceLinesDTOList().toString());
+        System.out.println("JJJJJJJJJJJJJJ");
         invoiceLineDTO.setProductName(productService.findOne(id).getShortName());
 //    HARDCODE!!!!!!!    /////////////////////////
         invoiceLineDTO.setPrice(new BigDecimal(10));
         model.addAttribute("invoicedto", invoiceDTO);
+        model.addAttribute("invoicelineslist", invoiceDTO.getInvoiceLinesDTOList());
         model.addAttribute("invoicelinedto", invoiceLineDTO);
         return "supply/invoice";
     }
@@ -85,14 +88,15 @@ public class InvoiceInController {
         return "redirect:/supply/newinvoice";
     }
 
-    @GetMapping(value="/addline")
-    public String addInvoiceLine(@Valid @ModelAttribute InvoiceDTO invoiceDTO,  Model model, BindingResult bindingResult) {
-
-
-        //        List<InvoiceLineDTO> invoiceLinesDTOList = invoiceDTO.getInvoiceLinesDTOList();
-//        invoiceLinesDTOList.add(new InvoiceLineDTO());
-//        invoiceDTO.setInvoiceLinesDTOList(invoiceLinesDTOList);
-        return "invoice/invoice";
+    @PostMapping(value="/addline")
+    public String addInvoiceLine(@Valid @ModelAttribute InvoiceDTO invoiceDTO, @ModelAttribute("invoicelinedto") InvoiceLineDTO invoiceLineDTO, Model model, BindingResult bindingResult) {
+        ////////////////////////
+        System.out.println(invoiceLineDTO);
+        invoiceDTO.addInvoiceLineDTO(invoiceLineDTO);
+        System.out.println(invoiceDTO.getInvoiceLinesDTOList().toString());
+        System.out.println("ddddddd");
+        model.addAttribute("invoicedto", invoiceDTO);
+        return "supply/selectproduct";
     }
 
     @RequestMapping("/editline/{id}")
