@@ -90,6 +90,10 @@ public class InvoiceDTO {
         this.invoiceLinesDTOList = invoiceLinesDTOList;
     }
 
+    public void addInvoiceLineDTO(InvoiceLineDTO invoiceLineDTO){
+        this.invoiceLinesDTOList.add(invoiceLineDTO);
+    }
+
     @Override
     public String toString() {
         return "InvoiceDTO{" +

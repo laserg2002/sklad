@@ -100,4 +100,20 @@ public class InvoiceLineDTO {
     public void setSalesType(String salesType) {
         this.salesType = salesType;
     }
+
+    @Override
+    public String toString() {
+        return "InvoiceLineDTO{" +
+                "id=" + id +
+                ", productId=" + productId +
+                ", productName='" + productName + '\'' +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                ", discount=" + discount +
+                ", extraFee=" + extraFee +
+                ", finalPrice=" + finalPrice +
+                ", itemTotal=" + itemTotal +
+                ", salesType='" + salesType + '\'' +
+                '}';
+    }
 }

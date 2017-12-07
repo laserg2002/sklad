@@ -26,9 +26,9 @@
 
     <!--///////////////////////////////ФОРМА//////////////////////////-->
     <form class="form-horizontal" action="showAllInvoices"
-          oninput="totalamount=${invoicelinedto.quantity * invoicelinedto.price}"
-                    th:action="@{/invoice/add}" th:object="${invoicelinedto}" method="post">
+                    th:action="@{/supply/addline}" th:object="${invoicelinedto}" method="post">
 
+        <!--oninput="totalamount=${invoicelinedto.quantity * invoicelinedto.price}"-->
 
         <!--private BigDecimal orderDiscount = new BigDecimal("0");-->
         <!--private BigDecimal orderFee = new BigDecimal("0");-->
@@ -95,10 +95,17 @@
                     </tr>
             </thead>
                 <tbody>
+                <input th:field="${invoicelinedto.productId}" th:hidden="true" />
+                <input th:field="${invoicelinedto.productName}" th:hidden="true" />
+                <input th:field="${invoicedto.contragentName}" th:hidden="true" />
+
+
                 <tr>
-                    <td width="190" th:text="*{productName}">13/01/2011</td>
-                    <td width="90" > <input type="text" id="quant" th:field="${invoicelinedto.quantity}" autocomplete="off"/></td>
-                    <td width="90" > <input type="text" id="price" th:field="${invoicelinedto.price}" autocomplete="off"/></td>
+                    <td width="190" th:text="${invoicelinedto.productName}">13/01/2011</td>
+                    <td width="90" > <input type="text" id="quant"
+                                            th:field="${invoicelinedto.quantity}" autocomplete="off"/></td>
+                    <td width="90" > <input type="text" id="price"
+                                            th:field="${invoicelinedto.price}" autocomplete="off"/></td>
                     <td width="90" type="text" id="totalsum"></td>
 
                     <td><a th:href="@{'/invoiceline/edit/'+${invoicelinedto.id}}">
