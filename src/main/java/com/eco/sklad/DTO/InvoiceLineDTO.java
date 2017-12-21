@@ -7,12 +7,12 @@ public class InvoiceLineDTO {
     private int productId;
     private String productName;
     private int quantity=1;
-    private BigDecimal price;
+    private BigDecimal price = new BigDecimal("0");
     private BigDecimal discount = new BigDecimal("0");
     private BigDecimal extraFee = new BigDecimal("0");
     private BigDecimal finalPrice = new BigDecimal("0");
     private BigDecimal itemTotal = new BigDecimal("0");
-    private String salesType;
+    private String salesType = "1";
 
     public InvoiceLineDTO() {
     }
@@ -99,6 +99,28 @@ public class InvoiceLineDTO {
 
     public void setSalesType(String salesType) {
         this.salesType = salesType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        InvoiceLineDTO that = (InvoiceLineDTO) o;
+
+        if (productId != that.productId) return false;
+        if (quantity != that.quantity) return false;
+        if (!price.equals(that.price)) return false;
+        return salesType.equals(that.salesType);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = productId;
+        result = 31 * result + quantity;
+        result = 31 * result + price.hashCode();
+        result = 31 * result + salesType.hashCode();
+        return result;
     }
 
     @Override

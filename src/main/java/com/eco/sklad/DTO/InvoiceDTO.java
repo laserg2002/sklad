@@ -9,7 +9,7 @@ import java.util.List;
 
 public class InvoiceDTO {
 //    private int id;
-//    private Date orderDate;
+    private Date orderDate;
     private int contragentId;
     private String contragentName;
     private BigDecimal orderDiscount = new BigDecimal("0");
@@ -20,6 +20,14 @@ public class InvoiceDTO {
     private List<InvoiceLineDTO> invoiceLinesDTOList = new ArrayList<>();
 
     public InvoiceDTO() {
+    }
+
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
     }
 
     public InvoiceDTO(int contragentId) {
@@ -33,6 +41,7 @@ public class InvoiceDTO {
     public void setContragentId(int contragentId) {
         this.contragentId = contragentId;
     }
+
 
     public String getContragentName() {
         return contragentName;

@@ -12,131 +12,111 @@
 
 <div th:replace="header"> content here </div>
 
-<div class="col-sm-12 text-center">
-    <h4><strong>Прихідна накладна</strong></h4>
-</div>
-
-
-<div class="panel-body">
-    <div>
-        <ul class="text-danger">
-            <li th:each="err : ${#fields.errors('*')}" th:text="${err}" />
-        </ul></div>
-
-
-    <!--///////////////////////////////ФОРМА//////////////////////////-->
-    <form class="form-horizontal" action="showAllInvoices"
-                    th:action="@{/supply/addline}" th:object="${invoicelinedto}" method="post">
-
-        <!--oninput="totalamount=${invoicelinedto.quantity * invoicelinedto.price}"-->
-
-        <!--private BigDecimal orderDiscount = new BigDecimal("0");-->
-        <!--private BigDecimal orderFee = new BigDecimal("0");-->
-        <!--private BigDecimal totalOrder = new BigDecimal("0");-->
-        <!--private Boolean finalized=false;-->
-        <!--private User salesManager=new User();-->
-        <!--private List<InvoiceLinesDTO> orderLines = new ArrayList<>();-->
-
-
-        <div class="form-group">
-
-        <div class="col-sm-3 text-right" ><label class="control-label">*Постачальник:</label></div>-->
-        <div class="col-md-3">
-            <div class="form-control" th:text="${invoicedto.contragentName}">fffffffff</div>
-         </div>        </div>
-
-
-
-        <div class="invoicelines" th:unless="${#lists.isEmpty(invoicelineslist)}">
-        <table class="table table-condensed text-center">
-            <thead>
-            <tr>
-                <th th:text="id">Date Planted</th>
-                <th th:text="Товар">Date Planted</th>
-                <th th:text="Кількість">Covered</th>
-                <th th:text="Ціна">Type</th>
-                <th th:text="Сума зі знижками">Features</th>
-                <th th:text="Операція">Rows</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="invoiceLinesDTO : ${invoicelineslist}">
-                <td th:text="${invoiceLinesDTO.id}">13/01/2011</td>
-                <td th:text="${invoiceLinesDTO.productId}">13/01/2011</td>
-                <td th:text="${invoiceLinesDTO.quantity}">yes</td>
-                <td th:text="${invoiceLinesDTO.itemTotal}">yes</td>
-                <td th:text="${invoiceLinesDTO.salesType}">Electric Heating, Turf</td>
-                <td><a th:href="@{'/invoiceline/edit/'+${invoiceLinesDTO.id}}"><span class="glyphicon glyphicon-edit"></span></a></td>
-                <td><a th:href="@{'/invoiceline/delete/'+${invoiceLinesDTO.id}}"><span class="glyphicon glyphicon-trash"></span></a></td>
-            </tr>
-            </tbody>
-        </table>
+<div class="col-md-10 col-md-offset-1 panel-info">
+    <!--style="margin-top:5px"-->
+    <div class="panel-heading text-center"><h4>Прихідна накладна</h4>
     </div>
 
-        <hr style="width: 83%; color: black; height: 1px; background-color:lightgray;" />
 
-        <!--private BigDecimal discount = new BigDecimal("0");-->
-        <!--private BigDecimal extraFee = new BigDecimal("0");-->
-        <!--private BigDecimal finalPrice = new BigDecimal("0");-->
-        <!--private BigDecimal itemTotal = new BigDecimal("0");-->
-        <!--private String salesType;-->
+    <div class="panel-body" style="padding: 0px; background-color: white">
 
-        <div>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th width="200" th:text="Товар">Date Planted</th>
-                        <th width="150" th:text="Кількість">Covered</th>
-                        <th width="100" th:text="Ціна">Type</th>
-                        <th width="100" th:text="Разом">Type</th>
-                        <th width="100" th:text="x">Type</th>
-                        <!--<th th:text="Сума зі знижками">Features</th>-->
-                        <!--<th th:text="Операція">Rows</th>-->
-                    </tr>
-            </thead>
-                <tbody>
-                <input th:field="${invoicelinedto.productId}" th:hidden="true" />
-                <input th:field="${invoicelinedto.productName}" th:hidden="true" />
-                <input th:field="${invoicedto.contragentName}" th:hidden="true" />
+    <div >
+        <ul class="text-danger">
+            <li th:each="err : ${#fields.errors('*')}" th:text="${err}" />
+        </ul>
+    </div>
+
+    <!--///////////////////////////////ФОРМА//////////////////////////-->
+    <form style="padding: 10px; alignment: center;" class="form-horizontal" action="showAllInvoices"
+                    th:action="@{/supply/addinvoice}" th:object="${invoicelinedto}" method="post">
+
+        <div class="row" >
+            <div class="col-md-2 col-md-offset-1">
+                <label style="text-align: right" for="f1" class="control-label">Постачальник:</label>
+            </div>
+            <div class="col-md-3">
+                <div class="form-control" id="f1" th:text="${invoicedto.contragentName}">fffffffff</div>
+            </div>
+            <div class="col-md-2 col-md-offset-1" for="f2">
+                <label style="text-align: right" id="f2" class="control-label">Дата приходу:</label>
+            </div>
+            <div class="col-md-3">
+                <span class="form-control" type="date" th:text="${#dates.format(invoicedto.orderDate,'dd-MMM-yyyy')}">fffffffff</span>
+            </div>
+        </div>
+
+        <!--"${invoicedto.orderDate}"-->
 
 
-                <tr>
-                    <td width="190" th:text="${invoicelinedto.productName}">13/01/2011</td>
-                    <td width="90" > <input type="text" id="quant"
-                                            th:field="${invoicelinedto.quantity}" autocomplete="off"/></td>
-                    <td width="90" > <input type="text" id="price"
-                                            th:field="${invoicelinedto.price}" autocomplete="off"/></td>
-                    <td width="90" type="text" id="totalsum"></td>
-
-                    <td><a th:href="@{'/invoiceline/edit/'+${invoicelinedto.id}}">
-                        <input type="submit" value="Додати до накладної" class="btn btn-primary btn-sm "/></a></td>
-                    <!--<td><a th:href="@{'/invoiceline/delete/'+${invoicelinedto.id}}"><span class="glyphicon glyphicon-trash"></span></a></td>-->
+        <div class="invoicelines" style="padding-top: 15px;" th:unless="${#lists.isEmpty(invoicelinedtos)}">
+        <table style="text-align: center;" class="table table-bordered table-condensed text-center">
+            <thead style="text-align: center; background-color: #c5e4f4">
+              <tr>
+                <th width="40" style="text-align: center;" th:text="N">Date Planted</th>
+                <th width="300" style="text-align: center;" th:text="Товар">Date Planted</th>
+                <th width="150" style="text-align: center;" th:text="Кількість">Covered</th>
+                <th width="150" style="text-align: center;" th:text="Ціна">Type</th>
+                <th width="150" style="text-align: center;" th:text="Разом">Type</th>
+                <th width="200" style="text-align: center;" th:text="Операція"> </th>
+                <th width="40"> </th>
+                <th width="40"> </th>
                 </tr>
-                </tbody>
-
+            </thead>
+            <tbody>
+            <tr th:each="invoiceline,rowStat : ${invoicelinedtos}">
+                <td th:text="${rowStat.count}">13/01/2011</td>
+                <td th:text="${invoiceline.productName}">13/01/2011</td>
+                <td th:text="${invoiceline.quantity}">yes</td>
+                <td th:text="${invoiceline.price}">yes</td>
+                <td>
+                <output type="text" style="padding: 0px; margin: 0px" class="item" th:text="${invoiceline.itemTotal}"></output>
+                </td>
+                <td th:text="${invoiceline.salesType}">Electric Heating, Turf</td>
+                <td><a th:href="@{'/supply/invoiceline/edit/'+${rowStat.count}}">
+                    <span class="glyphicon glyphicon-edit"></span></a></td>
+                <td><a th:href="@{'/supply/invoiceline/delete/'+${rowStat.count}}">
+                    <span class="glyphicon glyphicon-trash"></span></a></td>
+            </tr>
+            </tbody>
             </table>
-
-
-        <div class= "col-md-9 text-right">
-            <input type="submit" value="Підтвердити" class="btn btn-primary btn-lg "/></div>
-        <div class= "col-md-1 text-right">
-            <input type="reset" value="Відмінити" class="btn btn-warning btn-lg "/>
-        </div>
         </div>
 
+        <!--<hr style="width: 83%; color: black; height: 1px; background-color:lightgray;" />-->
+        <div class="row col-md-5 col-md-offset-7">
+            <p><u><strong>Загальна сума ПН: <output type="text" style="display: inline" id="result"></output></strong></u></p>
+        </div>
+        <div class="row">
+        <div class="col-md-9">
+        <a href="/supply/addline" class="btn btn-info btn-md">
+            <span class="glyphicon glyphicon-plus-sign"></span> Додати позицію
+        </a>
+        <a href="/supply/clear" class="btn btn-info btn-md">
+            <span class="glyphicon glyphicon-minus-sign"></span> Очистити накладну
+        </a>
+        </div>
+        <div class="row col-md-3">
+        <!--<hr style="width: 95%; color: black; height: 1px;" />-->
 
+            <input  type="submit" value="Провести" class="btn btn-lg btn-primary "/>
+                <input type="reset" value="Вихід" class="btn btn-lg btn-warning"/>
+        </div>
+        </div>
     </form>
 
+    </div>
 </div>
 
 </body>
 
 <script type="text/javascript">
-    $(document).on ("change", function() {
-        var total = $('#quant').val()*$('#price').val();
-        $("#totalsum").html(total);
+    $(function() {
+        var total=0;
+        $('.item').each(function () {
+            total += Number($(this).val());
+        });
+        $("#result").val(total);
     });
 
-</script>
+//</script>
 
 </html>

@@ -21,12 +21,10 @@ public class ProductService {
     @Transactional
     public void addProduct(Product product){
 
-        System.out.println(product);
         productRepo.save(product);
     }
 
     public Product findOne (Integer id){
-
         return productRepo.findOne(id);
     }
 

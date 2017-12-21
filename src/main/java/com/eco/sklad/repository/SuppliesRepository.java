@@ -14,4 +14,7 @@ public interface SuppliesRepository extends JpaRepository<Supplies, Integer> {
 
         Supplies save(Supplies supplies);
 
+//        @Query(value = "SELECT LAST_INSERT_ID() FROM ", nativeQuery = true)
+//        User findByEmailAddress(String emailAddress);
+
 }

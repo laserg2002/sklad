@@ -5,6 +5,7 @@ import com.eco.sklad.DTO.InvoiceLineDTO;
 import com.eco.sklad.domain.*;
 import com.eco.sklad.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -13,8 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping(value="/supply")
@@ -33,8 +33,9 @@ public class InvoiceInController {
     @Autowired
     ContragentService contragentService;
 
-//    @ModelAttribute("invoicedto")
     InvoiceDTO invoiceDTO = new InvoiceDTO();
+
+    ArrayList<InvoiceLineDTO> invoiceLineDTOS = new ArrayList<>();
 
     @ModelAttribute("productlist")
     public List<Product> allProductsList() {
@@ -48,80 +49,95 @@ public class InvoiceInController {
 
     @GetMapping
     public String showAllSupplies(Supplies supplies, Model model) {
-//        model.addAttribute("contragent", new Contragent());
+
         return "invoice/supplieslist";
     }
+
     @GetMapping("/selectsupplier")
     public String selectSupplier( ModelMap model) {
         model.addAttribute("contragent", new Contragent());
+        model.addAttribute("invoicedto", invoiceDTO);
         return "supply/selectsupplier";
     }
+
     @GetMapping("/supplier/")
-    public String selectSupplierPost( @RequestParam("id") Integer id, ModelMap model) {
-//        InvoiceDTO invoiceDTO = new InvoiceDTO(id);
+    public String selectSupplierPost(@RequestParam("contragentId") Integer id,
+                                     @RequestParam("orderDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date oDate, ModelMap model) {
         invoiceDTO.setContragentId(id);
+        invoiceDTO.setOrderDate(oDate);
         invoiceDTO.setContragentName(contragentService.findOne(id).getBalansName());
+        invoiceLineDTOS.clear();
         model.addAttribute("invoicedto", invoiceDTO);
         model.addAttribute("invoicelinedto", new InvoiceLineDTO());
+        model.addAttribute("invoicelinedtos", invoiceLineDTOS);
         return "supply/selectproduct";
     }
 
     @GetMapping("/product")
-    public String selectProduct(@RequestParam("id") Integer id, ModelMap model){
-        InvoiceLineDTO invoiceLineDTO = new InvoiceLineDTO();
-        invoiceLineDTO.setProductId(id);
-        ///////////////
-        System.out.println(invoiceDTO.getInvoiceLinesDTOList().toString());
-        System.out.println("JJJJJJJJJJJJJJ");
-        invoiceLineDTO.setProductName(productService.findOne(id).getShortName());
-//    HARDCODE!!!!!!!    /////////////////////////
-        invoiceLineDTO.setPrice(new BigDecimal(10));
+    public String selectProduct(@RequestParam(value = "id", required = false) Integer id, @ModelAttribute InvoiceLineDTO invoiceLineDTO, ModelMap model){
+        if (id!=null){
+            invoiceLineDTO.setProductId(id);
+            invoiceLineDTO.setItemTotal(invoiceLineDTO.getPrice().multiply(new BigDecimal(invoiceLineDTO.getQuantity())));
+            invoiceLineDTO.setProductName(productService.findOne(id).getShortName());
+            System.out.println(invoiceLineDTO);
+
+            invoiceLineDTOS.add(invoiceLineDTO);
+            Set<InvoiceLineDTO> dtosSet = new HashSet<>(invoiceLineDTOS);
+            invoiceLineDTOS=new ArrayList<>(dtosSet);
+            System.out.println(invoiceLineDTOS);
+            System.out.println("JJJJJJJJJJJJJJ");
+        }
         model.addAttribute("invoicedto", invoiceDTO);
-        model.addAttribute("invoicelineslist", invoiceDTO.getInvoiceLinesDTOList());
+        model.addAttribute("invoicelinedtos", invoiceLineDTOS);
         model.addAttribute("invoicelinedto", invoiceLineDTO);
         return "supply/invoice";
     }
 
-    @GetMapping("/newinvoice")
-    public String newInvoice( ModelMap model) {
-        model.addAttribute("invoiceline", new InvoiceLineDTO());
-        return "redirect:/supply/newinvoice";
-    }
 
-    @PostMapping(value="/addline")
+    @RequestMapping(value="/addline")
     public String addInvoiceLine(@Valid @ModelAttribute InvoiceDTO invoiceDTO, @ModelAttribute("invoicelinedto") InvoiceLineDTO invoiceLineDTO, Model model, BindingResult bindingResult) {
-        ////////////////////////
-        System.out.println(invoiceLineDTO);
-        invoiceDTO.addInvoiceLineDTO(invoiceLineDTO);
-        System.out.println(invoiceDTO.getInvoiceLinesDTOList().toString());
-        System.out.println("ddddddd");
         model.addAttribute("invoicedto", invoiceDTO);
+        model.addAttribute("invoicelinedto", invoiceLineDTO);
+        model.addAttribute("invoicelinedtos", invoiceLineDTOS);
         return "supply/selectproduct";
     }
 
-    @RequestMapping("/editline/{id}")
-    public String editLine(@PathVariable("id") int id, Model model,  @ModelAttribute InvoiceDTO invoiceDTO) {
-//        model.addAttribute("product", product);
-        return "invoice/invoice";
+    @RequestMapping(value = "/invoiceline/delete/{id}")
+    public String deleteInvoiceLine(@PathVariable int id, @ModelAttribute InvoiceDTO invoiceDTO, @ModelAttribute("invoicelinedto") InvoiceLineDTO invoiceLineDTO, ModelMap model) {
+        model.addAttribute("invoicedto", invoiceDTO);
+        model.addAttribute("invoicelinedto", invoiceLineDTO);
+        invoiceLineDTOS.remove(id-1);
+        return "redirect:/supply/product";
+    }
+
+    @RequestMapping(value = "/clear")
+    public String clearInvoice (@ModelAttribute InvoiceDTO invoiceDTO, ModelMap model){
+        invoiceLineDTOS.clear();
+        return "redirect:/supply/product";
+    }
+
+    @RequestMapping("/invoiceline/edit/{id}")
+    public String editLine(@PathVariable("id") int id, @ModelAttribute InvoiceDTO invoiceDTO, @ModelAttribute("invoicelinedto") InvoiceLineDTO invoiceLineDTO, ModelMap model) {
+        invoiceLineDTO=invoiceLineDTOS.get(id-1);
+        invoiceLineDTOS.remove(id-1);
+        model.addAttribute("invoicedto", invoiceDTO);
+        model.addAttribute("invoicelinedto", invoiceLineDTO);
+        model.addAttribute("invoicelinedtos", invoiceLineDTOS);
+        return "supply/selectproduct";
     }
 
     @RequestMapping(value="/addinvoice", method = RequestMethod.POST)
-    public String addInvoicePost(@Valid @ModelAttribute InvoiceDTO invoiceDTO, BindingResult bindingResult) {
+    public String addInvoicePost(ModelMap model) {
 
-        if (bindingResult.hasErrors()) {
-            return "invoice/invoice";
-        }
+//        if (bindingResult.hasErrors()) {
+//            return "invoice/invoice";
+//        }
+        System.out.println(invoiceDTO);
 
-//        SuppliesService.addInvoice(invoiceDTO);
-        return "invoice/invoicelist";
+        suppliesService.addSupply(invoiceDTO, invoiceLineDTOS);
+        return "/index";
     }
 
 
-    @RequestMapping(value = "/deleteline/{id}", method = RequestMethod.GET)
-    public String deleteInvoiceLine(@PathVariable int id, Model model, @ModelAttribute InvoiceDTO invoiceDTO) {
-        List<InvoiceLineDTO> invoiceLinesDTO = invoiceDTO.getInvoiceLinesDTOList();
-        invoiceLinesDTO.remove(id);
-        invoiceDTO.setInvoiceLinesDTOList(invoiceLinesDTO);
-        return "invoice/invoice";
-    }
+
 }

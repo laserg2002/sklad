@@ -22,6 +22,13 @@ public class SupplyLines {
     public SupplyLines() {
     }
 
+    public SupplyLines(Supplies supply, Product product, int quantity, BigDecimal price) {
+        this.supply = supply;
+        this.product = product;
+        this.quantity = quantity;
+        this.price = price;
+    }
+
     public int getId() {
         return id;
     }

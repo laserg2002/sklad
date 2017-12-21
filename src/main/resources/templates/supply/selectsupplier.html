@@ -17,30 +17,66 @@
 
 <div th:replace="header"> content here </div>
 
-<div class="form-group">
 
-    <div class="col-sm-3 text-right" ><label class="control-label">*Постачальник:</label></div>
-    <div class="col-md-3">
+<div class="panel panel-primary col-md-6 col-md-offset-3" style="padding: 0px">
+    <div class="panel-heading"><h4>Нова прихідна накладна</h4></div>
+    <div class="panel-body" style="background-color: lavenderblush">
 
-        <form action="#" th:action="@{'/supply/supplier/'}" th:object="${contragent}" method="get">
-            <select class="js-example-basic-single" th:object="${contragent}" th:field="*{id}">
-            <option th:each="contragent : ${contragentlist}"
-                th:value="${contragent.id}"
-                th:text="${contragent.balansName}">Wireframe</option>
-            </select>
-        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" id="reset"/></p>
+        <form action="#" class="form-horizontal" style="padding: 5px;"
+              th:action="@{'/supply/supplier/'}" th:object="${invoicedto}" method="get">
+
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label" for="sel1">Постачальник:</label>
+                <div class="col-md-9 col-md-offset-2">
+                    <select class="js-example-basic-single form-control col-md-9"
+                            id="sel1" th:object="${invoicedto}" th:field="*{contragentId}">
+                        <option th:each="contragent : ${contragentlist}"
+                                th:value="${contragent.id}"
+                                th:text="${contragent.balansName}">Wireframe</option>
+                    </select>
+
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label" for="datepicker">Дата поступлення:</label>
+                <div class="col-md-7 col-md-offset-2">
+                    <input type="date" class="form-control" id="datepicker"
+                           name="orderDate" th:value="${#dates.format(#dates.createToday(),'yyyy-MM-dd')}"/>
+                </div>
+            </div>
+
+            <!--value="2018-01-01"  ,'yyyy-MM-dd')-->
+
+            <button type="submit" style="margin-right: 5px;" class="btn btn-info">Продовжити</button>
+            <button type="reset" style="margin-right: 5px;" class="btn btn-warning">Відмінити</button>
+
+
+        <!--<p><input type="submit" value="Submit" /> <input type="reset" value="Reset" id="reset"/></p>-->
 </form>
 
     </div></div>
+
+
+<script type="text/javascript">
+    $(document).ready( function() {
+        var today = new Date();
+        $("#datepicker").val(today.getFullYear() + '-' + ('0' + (today.getMonth() + 1))
+            .slice(-2) + '-' + ('0' + today.getDate()).slice(-2));
+    });​
+
+</script>
 
 
     <script type="text/javascript">
         $(".js-example-basic-single").select2();
         var reset = document.getElementById("reset");
         reset.onclick = ()=>{
+
             window.history.back();
         }
     </script>
+
 
 </body>
 </html>

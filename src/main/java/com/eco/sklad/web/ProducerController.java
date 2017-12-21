@@ -64,8 +64,8 @@ public class ProducerController {
 
         if (bindingResult.hasErrors()) {
 
-            System.out.println(producer+"bvbvbvbvbvb");
-            System.out.println(bindingResult);
+//            System.out.println(producer+"bvbvbvbvbvb");
+//            System.out.println(bindingResult);
             modelEdit.addObject("bindingresult", bindingResult);
             return modelEdit;
         }
@@ -86,7 +86,7 @@ public class ProducerController {
     @RequestMapping( method = RequestMethod.POST, value = "/producers/new")
     public ModelAndView producerNewPost(@ModelAttribute Producer producer, @ModelAttribute Country country ) {
         producer.setCountry(country);
-        System.out.println(producer+"hhhhhhhhhhhhhhhhhhhhhh");
+//        System.out.println(producer+"hhhhhhhhhhhhhhhhhhhhhh");
         proRepo.addProducer( producer.getFullName(),producer.getCategoryProducer(),country.getId());
         return new ModelAndView("redirect:/producers/");
     }

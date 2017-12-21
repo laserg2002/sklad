@@ -2,6 +2,7 @@ package com.eco.sklad.domain;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,7 +17,10 @@ public class Supplies {
     @Temporal(TemporalType.DATE)
     private Date dateOfSupply;
 
-    @ManyToOne
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date insertDate;
+
+    @ManyToOne(cascade = CascadeType.ALL)
     private Contragent supplier;
 
     private BigDecimal total;
@@ -25,9 +29,22 @@ public class Supplies {
     private List<SupplyLines> supplyList = new ArrayList<>();
 
 
-
     public Supplies() {
     }
+
+    public Supplies(Date dateOfSupply, Contragent supplier, BigDecimal total) {
+        this.dateOfSupply = dateOfSupply;
+        this.supplier = supplier;
+        this.total = total;
+    }
+
+    public Date getInsertDate() {
+        return insertDate;
+    }
+
+//    public void setInsertDate(Date insertDate) {
+//        this.insertDate = insertDate;
+//    }
 
     public int getId() {
         return id;

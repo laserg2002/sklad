@@ -10,6 +10,7 @@ import java.util.Optional;
     public interface ContragentRepository extends JpaRepository<Contragent, Integer>{
 
         @Query("from Contragent u where u.balansName=:balansName")
+
         Optional<Contragent> findByBalansName(@Param("balansName") String balansName);
 
         Contragent save(Contragent contragent);

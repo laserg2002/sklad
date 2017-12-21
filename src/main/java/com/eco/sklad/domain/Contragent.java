@@ -46,6 +46,11 @@ public class Contragent {
     public Contragent() {
     }
 
+
+    public Contragent(int id) {
+        this.id = id;
+    }
+
     public Contragent(int id, String balansName, String companyName, User user) {
         this.id = id;
         this.balansName = balansName;
