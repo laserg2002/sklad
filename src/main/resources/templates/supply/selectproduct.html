@@ -22,13 +22,21 @@
         <div class="panel-heading"><h4>Додайте товарну позицію</h4></div>
 
         <div class="panel-body" style="background-color: lavenderblush">
+
+
         <form class="form-horizontal" style="padding: 10px;" action="#" th:action="@{'/supply/product/'}"
               th:object="${invoicelinedto}" method="get">
 
+            <input type="hidden" th:value="${invoicedto.invoiceId}"></input>
+            <input type="hidden" th:value="${invoicedto.orderDate}"></input>
+            <input type="hidden" th:value="${invoicedto.contragentId}"></input>
+            <input type="hidden" th:value="${invoicedto.id}"></input>
+
+
             <div class="form-group row">
                 <label class="col-sm-1 col-form-label" for="sel">Номенклатура:</label>
-                <div class="col-md-9 col-md-offset-2">
-                    <select class="js-example-basic-single form-control col-md-9" id="sel"
+                <div class="col-md-8 col-md-offset-2">
+                    <select class="js-example-basic-single form-control" id="sel"
                             th:object="${invoicelinedto}" th:field="*{id}">
                         <option th:each="product : ${productlist}"
                                 th:value="${product.id}"

@@ -27,8 +27,8 @@
 
             <div class="form-group row">
                 <label class="col-sm-1 col-form-label" for="sel1">Постачальник:</label>
-                <div class="col-md-9 col-md-offset-2">
-                    <select class="js-example-basic-single form-control col-md-9"
+                <div class="col-md-8 col-md-offset-2">
+                    <select class="js-example-basic-single form-control"
                             id="sel1" th:object="${invoicedto}" th:field="*{contragentId}">
                         <option th:each="contragent : ${contragentlist}"
                                 th:value="${contragent.id}"

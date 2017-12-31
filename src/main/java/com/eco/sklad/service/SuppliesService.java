@@ -11,6 +11,8 @@ import com.eco.sklad.repository.ProductRepository;
 import com.eco.sklad.repository.SuppliesRepository;
 import com.eco.sklad.repository.SupplyLinesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,10 +38,31 @@ public class SuppliesService {
     @Transactional
     public void addSupply(InvoiceDTO invoiceDTO, ArrayList<InvoiceLineDTO> invoiceLineDTOS){
         Contragent contragent = contragentRepo.findOne(invoiceDTO.getContragentId());
-        Supplies supplies = new Supplies(invoiceDTO.getOrderDate(), contragent,
-                invoiceDTO.getTotalOrder());
-        System.out.println(invoiceDTO);
-        System.out.println(supplies);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String managerName=authentication.getName();
+        Supplies supplies = new Supplies(invoiceDTO.getInvoiceId(), invoiceDTO.getOrderDate(),
+                contragent,
+                invoiceDTO.getTotalOrder(),
+                managerName
+                );
+        if (supplies.getId()>0) {
+            System.out.println(supplies);
+            List<SupplyLines> newList = new ArrayList<>();
+            BigDecimal total = new BigDecimal(0);
+            for (InvoiceLineDTO invoiceLineDTO:invoiceLineDTOS
+                    ) {
+                SupplyLines supplyLine = new SupplyLines( supplies,
+                        productRepo.findOne(invoiceLineDTO.getProductId()),
+                        invoiceLineDTO.getQuantity(),
+                        invoiceLineDTO.getPrice());
+                total = total.add(invoiceLineDTO.getItemTotal());
+                newList.add(supplyLine);
+            }
+            supplies.setTotal(total);
+            supplies.setSupplyList(newList);
+            suppliesRepo.save(supplies);
+        } else {
+
         Supplies supplies1 = suppliesRepo.save(supplies);
 
         BigDecimal total = new BigDecimal(0);
@@ -54,7 +77,7 @@ public class SuppliesService {
         }
         supplies1.setTotal(total);
         suppliesRepo.save(supplies1);
-    }
+    }}
 
     public Supplies findOne (Integer id){
         return suppliesRepo.findOne(id);

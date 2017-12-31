@@ -26,11 +26,9 @@ public class User implements UserDetails{
 
     @OneToOne(
             mappedBy = "user",
-//            cascade = CascadeType.ALL,
             optional = true,
             orphanRemoval = false,
             fetch = FetchType.LAZY)
-//    @LazyToOne( LazyToOneOption.NO_PROXY )
     private Contragent contragent;
 
     @OneToOne(

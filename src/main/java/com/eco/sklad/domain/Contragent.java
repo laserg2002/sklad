@@ -21,8 +21,8 @@ public class Contragent {
     @NaturalId
     @NotEmpty
     private String balansName;
-
     private String companyName;
+    private String managerName;
     private Boolean allowMinus=false;
     private int balansCredit=0;
 
@@ -84,6 +84,14 @@ public class Contragent {
 
     public int getBalansCredit() {
         return balansCredit;
+    }
+
+    public String getManagerName() {
+        return managerName;
+    }
+
+    public void setManagerName(String managerName) {
+        this.managerName = managerName;
     }
 
     public void setBalansCredit(int balansCredit) {

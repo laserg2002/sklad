@@ -36,6 +36,10 @@
             </div>
             <div class="col-md-3">
                 <div class="form-control" id="f1" th:text="${invoicedto.contragentName}">fffffffff</div>
+                <input type="hidden" th:value="${invoicedto.invoiceId}"></input>
+                <input type="hidden" th:value="${invoicedto.id}"></input>
+                <input type="hidden" th:value="${invoicedto.orderDate}"></input>
+                <input type="hidden" th:value="${invoicedto.contragentId}"></input>
             </div>
             <div class="col-md-2 col-md-offset-1" for="f2">
                 <label style="text-align: right" id="f2" class="control-label">Дата приходу:</label>

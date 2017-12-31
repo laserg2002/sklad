@@ -20,8 +20,10 @@ public class Supplies {
     @Temporal(TemporalType.TIMESTAMP)
     private Date insertDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Contragent supplier;
+
+    private String managerName;
 
     private BigDecimal total;
 
@@ -32,10 +34,12 @@ public class Supplies {
     public Supplies() {
     }
 
-    public Supplies(Date dateOfSupply, Contragent supplier, BigDecimal total) {
+    public Supplies(int id, Date dateOfSupply, Contragent supplier, BigDecimal total, String managerName) {
+        this.id = id;
         this.dateOfSupply = dateOfSupply;
         this.supplier = supplier;
         this.total = total;
+        this.managerName = managerName;
     }
 
     public Date getInsertDate() {
@@ -52,6 +56,14 @@ public class Supplies {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getManagerName() {
+        return managerName;
+    }
+
+    public void setManagerName(String managerName) {
+        this.managerName = managerName;
     }
 
     public List<SupplyLines> getSupplyList() {
@@ -84,5 +96,16 @@ public class Supplies {
 
     public void setTotal(BigDecimal total) {
         this.total = total;
+    }
+
+    @Override
+    public String toString() {
+        return "Supplies{" +
+                "id=" + id +
+                ", dateOfSupply=" + dateOfSupply +
+                ", insertDate=" + insertDate +
+                ", managerName='" + managerName + '\'' +
+                ", total=" + total +
+                '}';
     }
 }

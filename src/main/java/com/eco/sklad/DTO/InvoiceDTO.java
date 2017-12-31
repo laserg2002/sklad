@@ -8,9 +8,10 @@ import java.util.Date;
 import java.util.List;
 
 public class InvoiceDTO {
-//    private int id;
+    private int id;
     private Date orderDate;
     private int contragentId;
+    private int invoiceId;
     private String contragentName;
     private BigDecimal orderDiscount = new BigDecimal("0");
     private BigDecimal orderFee = new BigDecimal("0");
@@ -20,6 +21,21 @@ public class InvoiceDTO {
     private List<InvoiceLineDTO> invoiceLinesDTOList = new ArrayList<>();
 
     public InvoiceDTO() {
+    }
+
+    public InvoiceDTO(int id, int contragentId, String contragentName, BigDecimal totalOrder) {
+        this.id = id;
+        this.contragentId = contragentId;
+        this.contragentName = contragentName;
+        this.totalOrder = totalOrder;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Date getOrderDate() {
@@ -36,6 +52,14 @@ public class InvoiceDTO {
 
     public int getContragentId() {
         return contragentId;
+    }
+
+    public int getInvoiceId() {
+        return invoiceId;
+    }
+
+    public void setInvoiceId(int invoiceId) {
+        this.invoiceId = invoiceId;
     }
 
     public void setContragentId(int contragentId) {
@@ -106,7 +130,9 @@ public class InvoiceDTO {
     @Override
     public String toString() {
         return "InvoiceDTO{" +
-                "contragentId=" + contragentId +
+                "id=" + id +
+                ", orderDate=" + orderDate +
+                ", contragentId=" + contragentId +
                 ", contragentName='" + contragentName + '\'' +
                 ", orderDiscount=" + orderDiscount +
                 ", orderFee=" + orderFee +

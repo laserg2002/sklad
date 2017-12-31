@@ -7,6 +7,7 @@ public class InvoiceLineDTO {
     private int productId;
     private String productName;
     private int quantity=1;
+    private int invoiceId;
     private BigDecimal price = new BigDecimal("0");
     private BigDecimal discount = new BigDecimal("0");
     private BigDecimal extraFee = new BigDecimal("0");
@@ -21,12 +22,29 @@ public class InvoiceLineDTO {
         this.id = id;
     }
 
+    public InvoiceLineDTO(int id, int productId, int quantity, String productName, BigDecimal price) {
+        this.productId = productId;
+        this.id = id;
+        this.productName = productName;
+        this.quantity = quantity;
+        this.price = price;
+        this.itemTotal = price.multiply(new BigDecimal(quantity));
+    }
+
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getInvoiceId() {
+        return invoiceId;
+    }
+
+    public void setInvoiceId(int invoiceId) {
+        this.invoiceId = invoiceId;
     }
 
     public int getProductId() {
@@ -131,9 +149,7 @@ public class InvoiceLineDTO {
                 ", productName='" + productName + '\'' +
                 ", quantity=" + quantity +
                 ", price=" + price +
-                ", discount=" + discount +
-                ", extraFee=" + extraFee +
-                ", finalPrice=" + finalPrice +
+                ", invoice=" + invoiceId +
                 ", itemTotal=" + itemTotal +
                 ", salesType='" + salesType + '\'' +
                 '}';
