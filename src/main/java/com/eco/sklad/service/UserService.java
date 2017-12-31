@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,6 +24,12 @@ public class UserService implements UserDetailsService{
             new UsernameNotFoundException("неправильний пароль або user"));
     }
 
+    public List<User> findAll(){ return userDao.findAll(); }
+
+    public User findOne(int id){ return userDao.findOne(id); }
+
+    public void delete(int id){ userDao.delete(id); }
+
     public boolean existsByPhone(String phone){
         return userDao.existsByPhone(phone);
     }
@@ -34,7 +41,5 @@ public class UserService implements UserDetailsService{
     public void addUser(User user){
         userDao.save(user);
     }
-
-
 
 }

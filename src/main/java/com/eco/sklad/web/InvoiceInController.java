@@ -6,6 +6,7 @@ import com.eco.sklad.domain.*;
 import com.eco.sklad.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -130,6 +131,7 @@ public class InvoiceInController {
 
     @RequestMapping(value="/addline")
     public String addInvoiceLine(@Valid @ModelAttribute InvoiceDTO invoiceDTO, @ModelAttribute("invoicelinedto") InvoiceLineDTO invoiceLineDTO, Model model, BindingResult bindingResult) {
+        System.out.println(new BCryptPasswordEncoder().encode("password"));
         model.addAttribute("invoicedto", invoiceDTO);
         model.addAttribute("invoicelinedto", invoiceLineDTO);
         model.addAttribute("invoicelinedtos", invoiceLineDTOS);
