@@ -13,6 +13,8 @@ import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import java.util.*;
 
+import static javax.persistence.CascadeType.*;
+
 @Entity
 public class User implements UserDetails{
     @Id
@@ -21,13 +23,14 @@ public class User implements UserDetails{
     private int id;
 
     @NaturalId
-    @NotBlank(message = "введіть логін")
+    @NotBlank(message = "введіть логін або баланс")
     private String username;
 
     @OneToOne(
             mappedBy = "user",
             optional = true,
             orphanRemoval = false,
+            cascade = {PERSIST, MERGE, REFRESH, DETACH},
             fetch = FetchType.LAZY)
     private Contragent contragent;
 
@@ -57,18 +60,22 @@ public class User implements UserDetails{
     private String street;
     private String comment;
     @Pattern(regexp = "^\\+\\d{2}\\(\\d{3}\\)\\d{7}$", message = "номер телефона має відповідати формату +38(067)6767676" )
-    private String phone;
+    private String phone="+38(067)";
     private Boolean viber;
-    @NotBlank(message = "введіть e-mail")
+//    @NotBlank(message = "введіть e-mail")
     @Email(message = "некоректний e-mail №1")
     private String email;
 
     private boolean accountNonExpired=true;
     private boolean accountNonLocked=true;
     private boolean credentialsNonExpired=true;
-    private boolean enabled=true;
+    private boolean enabled=false;
 
     public User() {
+    }
+
+    public User(Contragent contragent) {
+        this.contragent = contragent;
     }
 
     public User(int id, String username, Set<UserRole> authorities, String password,
@@ -247,5 +254,24 @@ public class User implements UserDetails{
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+//                ", contragent=" + contragent +
+                ", employee=" + employee +
+                ", authorities=" + authorities +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", city='" + city + '\'' +
+                ", region='" + region + '\'' +
+                ", street='" + street + '\'' +
+                ", comment='" + comment + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

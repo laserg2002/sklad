@@ -3,9 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8"/> 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+    <meta charset="UTF-8"/>
 
     <title>Виберіть постачальника</title>
 </head>
@@ -78,6 +76,7 @@
 
 <script type="text/javascript">
     $(".js-example-basic-single").select2();
+
     var reset = document.getElementById("reset");
     reset.onclick = ()=>{
         $("#sel").html("0");

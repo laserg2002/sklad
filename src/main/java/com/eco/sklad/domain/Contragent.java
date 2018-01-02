@@ -1,5 +1,6 @@
 package com.eco.sklad.domain;
 
+import com.eco.sklad.DTO.UserDTO;
 import org.hibernate.annotations.LazyToOne;
 import org.hibernate.annotations.LazyToOneOption;
 import org.hibernate.annotations.NaturalId;
@@ -21,8 +22,10 @@ public class Contragent {
     @NaturalId
     @NotEmpty
     private String balansName;
+
     private String companyName;
     private String managerName;
+
     private Boolean allowMinus=false;
     private int balansCredit=0;
 
@@ -46,6 +49,17 @@ public class Contragent {
     public Contragent() {
     }
 
+    public Contragent(String managerName) {
+        this.managerName = managerName;
+    }
+
+    public Contragent(UserDTO userDTO) {
+        this.balansName = userDTO.getBalansName();
+        this.companyName = userDTO.getCompanyName();
+        this.managerName = userDTO.getManagerName();
+        this.balansCredit = userDTO.getBalansCredit();
+        this.user = userDTO.getUser();
+    }
 
     public Contragent(int id) {
         this.id = id;
@@ -86,14 +100,6 @@ public class Contragent {
         return balansCredit;
     }
 
-    public String getManagerName() {
-        return managerName;
-    }
-
-    public void setManagerName(String managerName) {
-        this.managerName = managerName;
-    }
-
     public void setBalansCredit(int balansCredit) {
         this.balansCredit = balansCredit;
     }
@@ -106,8 +112,21 @@ public class Contragent {
         this.balansName = balansName;
     }
 
-    public Optional getUser() {
-        return Optional.ofNullable(this.user);
+//    public Optional getUser() {
+//        return Optional.ofNullable(this.user);
+//    }
+
+
+    public String getManagerName() {
+        return managerName;
+    }
+
+    public void setManagerName(String managerName) {
+        this.managerName = managerName;
+    }
+
+    public User getUser() {
+        return this.user;
     }
 
     public void setUser(User user) {
@@ -128,13 +147,8 @@ public class Contragent {
                 "id=" + id +
                 ", balansName='" + balansName + '\'' +
                 ", companyName='" + companyName + '\'' +
-                ", allowMinus=" + allowMinus +
                 ", balansCredit=" + balansCredit +
                 ", user=" + user +
-                ", suppliesList=" + suppliesList +
-                ", orderList=" + orderList +
-                ", pkoList=" + pkoList +
-                ", rkoList=" + rkoList +
                 '}';
     }
 }

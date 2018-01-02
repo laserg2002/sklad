@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Список юзерів</title>
+</head>
+<body style="background-color:lightcyan">
+
+<div th:replace="header"> content here </div>
+<div class="col-md-10 col-md-offset-1 panel-info">
+    <div class="panel-heading text-center"><h4>Список користувачів</h4></div>
+    <div class="panel-body" style="padding: 0px; background-color: white">
+
+        <table class="table table-condensed text-center">
+            <thead>
+            <tr>
+                <th class="text-center"> Login </th>
+                <th class="text-center"> Прізвище </th>
+                <th class="text-center"> Ім'я </th>
+                <th class="text-center"> Місто </th>
+                <th class="text-center"> Телефон </th>
+                <th class="text-center"> e-mail </th>
+                <th>      </th>
+                <th>      </th>
+            </tr>
+            </thead>
+
+
+
+            <tbody>
+            <tr th:each="person : ${userlist}">
+                <td th:text="${person.username}">Red chair</td>
+                <td th:text="${person.lastName}">Red chair</td>
+                <td th:text="${person.firstName}">Red chair</td>
+                <td th:text="${person.city}">Red chair</td>
+                <td th:text="${person.phone}">Red chair</td>
+                <td th:text="${person.email}">Red chair</td>
+                <td> <a th:href="@{'/user/edit/'+${person.id}}"><span class="glyphicon glyphicon-edit"></span></a></td>
+                <td><a th:href="@{'/user/delete/'+${person.id}}"><span class="glyphicon glyphicon-trash"></span></a></td>
+            </tr>
+            </tbody>
+        </table>
+
+
+
+    </div>
+</div>
+
+</body>
+</html>

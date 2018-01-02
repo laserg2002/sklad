@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
     <title>Header</title>
 </head>
 
@@ -37,7 +39,17 @@
                 <li><a href="#">Склад</a></li>
                 <li><a href="#">Каса</a></li>
                 <li><a href="/product">Товари</a></li>
-                <li><a href="/product">Контрагенти</a></li>
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Контрагенти і користувачі<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                    <li><a href="/user">Користувачі</a></li>
+                    <li><a href="/user/new">Новий користувач</a></li>
+                    <li><a href="/user/newcontragent">Новий контрагент</a></li>
+                    </ul>
+                </li>
+
+
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">Довідники<span class="caret"></span></a>
                     <ul class="dropdown-menu">

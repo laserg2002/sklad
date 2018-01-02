@@ -44,7 +44,6 @@ public class MainController {
     }
     @RequestMapping(value="/registr", method = RequestMethod.POST)
     public String registrUser(@Valid @ModelAttribute User user, BindingResult bindingResult) {
-        System.out.println(user);
         if (user.getId()==null) {
             if (!user.getPhone().trim().isEmpty()) {
                 if (userServise.existsByPhone(user.getPhone())) {
@@ -53,7 +52,7 @@ public class MainController {
             }
             if (!user.getEmail().trim().isEmpty()) {
                 if (userServise.existsByEmail(user.getEmail())) {
-                    bindingResult.addError(new ObjectError("email", "email1 already exists for this email."));
+                    bindingResult.addError(new ObjectError("email", "email already exists for this email."));
                 }
             }
         }
