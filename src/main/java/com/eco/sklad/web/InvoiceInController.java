@@ -131,7 +131,6 @@ public class InvoiceInController {
 
     @RequestMapping(value="/addline")
     public String addInvoiceLine(@Valid @ModelAttribute InvoiceDTO invoiceDTO, @ModelAttribute("invoicelinedto") InvoiceLineDTO invoiceLineDTO, Model model, BindingResult bindingResult) {
-        System.out.println(new BCryptPasswordEncoder().encode("password"));
         model.addAttribute("invoicedto", invoiceDTO);
         model.addAttribute("invoicelinedto", invoiceLineDTO);
         model.addAttribute("invoicelinedtos", invoiceLineDTOS);

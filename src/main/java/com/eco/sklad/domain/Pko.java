@@ -1,5 +1,8 @@
 package com.eco.sklad.domain;
 
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -10,38 +13,49 @@ public class Pko {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    private int pkoid=0;
+
+    @Enumerated(EnumType.STRING)
+    private PaymentType paymentType;
+
+    @Enumerated(EnumType.STRING)
+    private CassaOperation cassaOperation;
+
     @ManyToOne
+    @JoinColumn(name = "contragent_id")
     private Contragent contragent;
 
     @Temporal(TemporalType.DATE)
     private Date pkoDate;
 
-    @ManyToOne
-    private Cassa cassa;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date insertDate;
+
+    private String managerName;
 
     private BigDecimal usdAmount = new BigDecimal(0);
     private BigDecimal uahAmount = new BigDecimal(0);
     private BigDecimal euroAmount = new BigDecimal(0);
-    private BigDecimal pkoAmount = new BigDecimal(0);
-    private Double EuroUsdKurs;
-    private Double UsdUahKurs;
+    @Generated( value = GenerationTime.ALWAYS )
+    private BigDecimal pkoAmount;
+    private Float euroUsdKurs = 1.22f;
+    private Float usdUahKurs = 28.1f;
     private String comments;
 
     public Pko() {
     }
 
-    public Pko(Contragent contragent, Date pkoDate, Cassa cassa, BigDecimal usdAmount,
+    public Pko(Contragent contragent, Date pkoDate, BigDecimal usdAmount,
                BigDecimal uahAmount, BigDecimal euroAmount, BigDecimal pkoAmount,
-               Double euroUsdKurs, Double usdUahKurs, String comments) {
+               Float euroUsdKurs, Float usdUahKurs, String comments) {
         this.contragent = contragent;
         this.pkoDate = pkoDate;
-        this.cassa = cassa;
         this.usdAmount = usdAmount;
         this.uahAmount = uahAmount;
         this.euroAmount = euroAmount;
         this.pkoAmount = pkoAmount;
-        EuroUsdKurs = euroUsdKurs;
-        UsdUahKurs = usdUahKurs;
+        this.euroUsdKurs = euroUsdKurs;
+        this.usdUahKurs = usdUahKurs;
         this.comments = comments;
     }
 
@@ -69,12 +83,12 @@ public class Pko {
         this.pkoDate = pkoDate;
     }
 
-    public Cassa getCassa() {
-        return cassa;
+    public Integer getPkoid() {
+        return pkoid;
     }
 
-    public void setCassa(Cassa cassa) {
-        this.cassa = cassa;
+    public void setPkoid(int pkoid) {
+        this.pkoid = pkoid;
     }
 
     public BigDecimal getUsdAmount() {
@@ -109,20 +123,20 @@ public class Pko {
         this.pkoAmount = pkoAmount;
     }
 
-    public Double getEuroUsdKurs() {
-        return EuroUsdKurs;
+    public Float getEuroUsdKurs() {
+        return euroUsdKurs;
     }
 
-    public void setEuroUsdKurs(Double euroUsdKurs) {
-        EuroUsdKurs = euroUsdKurs;
+    public void setEuroUsdKurs(Float euroUsdKurs) {
+        this.euroUsdKurs = euroUsdKurs;
     }
 
-    public Double getUsdUahKurs() {
-        return UsdUahKurs;
+    public Float getUsdUahKurs() {
+        return usdUahKurs;
     }
 
-    public void setUsdUahKurs(Double usdUahKurs) {
-        UsdUahKurs = usdUahKurs;
+    public void setUsdUahKurs(Float usdUahKurs) {
+        this.usdUahKurs = usdUahKurs;
     }
 
     public String getComments() {
@@ -131,6 +145,59 @@ public class Pko {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public PaymentType getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(PaymentType paymentType) {
+        this.paymentType = paymentType;
+    }
+
+    public CassaOperation getCassaOperation() {
+        return cassaOperation;
+    }
+
+    public void setCassaOperation(CassaOperation cassaOperation) {
+        this.cassaOperation = cassaOperation;
+    }
+
+    public Date getInsertDate() {
+        return insertDate;
+    }
+
+    public void setInsertDate(Date insertDate) {
+        this.insertDate = insertDate;
+    }
+
+    public String getManagerName() {
+        return managerName;
+    }
+
+    public void setManagerName(String managerName) {
+        this.managerName = managerName;
+    }
+
+    @Override
+    public String toString() {
+        return "Pko{" +
+                "id=" + id +
+                "pkoid=" + pkoid +
+                ", paymentType=" + paymentType +
+                ", cassaOperation=" + cassaOperation +
+                ", contragent=" + contragent +
+                ", pkoDate=" + pkoDate +
+                ", insertDate=" + insertDate +
+                ", managerName='" + managerName + '\'' +
+                ", usdAmount=" + usdAmount +
+                ", uahAmount=" + uahAmount +
+                ", euroAmount=" + euroAmount +
+                ", pkoAmount=" + pkoAmount +
+                ", euroUsdKurs=" + euroUsdKurs +
+                ", usdUahKurs=" + usdUahKurs +
+                ", comments='" + comments + '\'' +
+                '}';
     }
 }
 

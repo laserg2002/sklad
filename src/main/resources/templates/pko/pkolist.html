@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Список номенклатури</title>
+</head>
+<body style="background-color:lightcyan">
+<div th:replace="header"> content here </div>
+
+<div class="col-md-10 col-md-offset-1 panel-info">
+    <!--style="margin-top:5px"-->
+    <div class="panel-heading text-center"><h4>Журнал ПКО</h4>
+    </div>
+    <div class="panel-body" style="padding: 0px; background-color: white">
+
+        <table class="table text-center">
+            <thead>
+            <tr>
+                <th class="text-center"> Контрагент </th>
+                <th class="text-center"> Сума </th>
+                <th class="text-center"> Дата </th>
+                <th class="text-center"> Форма оплати </th>
+                <th class="text-center"> Вид платежа </th>
+                <th class="text-center"> Менеджер </th>
+                <th>      </th>
+                <th>      </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="pko : ${pkolist}">
+                <td th:text="${pko.contragent.balansName}">Red chair</td>
+                <td th:text="${pko.pkoAmount}">Red chair</td>
+                <td th:text="${#dates.format(pko.pkoDate,'dd-MMM-yyyy')}">Red chair</td>
+                <td th:text="${pko.paymentType.description}">Red chair</td>
+                <td th:text="${pko.cassaOperation.description}">Red chair</td>
+                <td th:text="${pko.managerName}">Red chair</td>
+                <td><a th:href="@{'/pko/edit/'+${pko.id}}">
+                    <span class="glyphicon glyphicon-list"></span></a></td>
+                <td><a th:href="@{'/pko/delete/'+${pko.id}}"
+                       th:if="${#dates.format(#dates.createToday(),'dd-MMM-yyyy')==#dates.format(pko.pkoDate,'dd-MMM-yyyy')}">
+                    <span class="glyphicon glyphicon-trash"></span></a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

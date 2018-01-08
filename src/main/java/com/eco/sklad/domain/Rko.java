@@ -10,32 +10,39 @@ public class Rko {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    @Enumerated(EnumType.STRING)
+    private PaymentType paymentType;
+
+    @Enumerated(EnumType.STRING)
+    private CassaOperation cassaOperation;
+
     @ManyToOne
     private Contragent contragent;
 
     @Temporal(TemporalType.DATE)
     private Date rkoDate;
 
-    @ManyToOne
-    private Cassa cassa;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date insertDate;
 
-    private BigDecimal usdAmount;
-    private BigDecimal uahAmount;
-    private BigDecimal euroAmount;
-    private BigDecimal rkoAmount;
-    private Double EuroUsdKurs;
-    private Double UsdUahKurs;
+    private String managerName;
+
+    private BigDecimal usdAmount=new BigDecimal("0");
+    private BigDecimal uahAmount=new BigDecimal("0");
+    private BigDecimal euroAmount=new BigDecimal("0");
+    private BigDecimal rkoAmount=new BigDecimal("0");
+    private Double EuroUsdKurs=1.18d;
+    private Double UsdUahKurs=28.3d;
     private String comments;
 
     public Rko() {
     }
 
-    public Rko(Contragent contragent, Date rkoDate, Cassa cassa, BigDecimal usdAmount,
+    public Rko(Contragent contragent, Date rkoDate, BigDecimal usdAmount,
                BigDecimal uahAmount, BigDecimal euroAmount, BigDecimal rkoAmount,
                Double euroUsdKurs, Double usdUahKurs, String comments) {
         this.contragent = contragent;
         this.rkoDate = rkoDate;
-        this.cassa = cassa;
         this.usdAmount = usdAmount;
         this.uahAmount = uahAmount;
         this.euroAmount = euroAmount;
@@ -67,14 +74,6 @@ public class Rko {
 
     public void setRkoDate(Date rkoDate) {
         this.rkoDate = rkoDate;
-    }
-
-    public Cassa getCassa() {
-        return cassa;
-    }
-
-    public void setCassa(Cassa cassa) {
-        this.cassa = cassa;
     }
 
     public BigDecimal getUsdAmount() {
@@ -131,6 +130,38 @@ public class Rko {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public PaymentType getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(PaymentType paymentType) {
+        this.paymentType = paymentType;
+    }
+
+    public CassaOperation getCassaOperation() {
+        return cassaOperation;
+    }
+
+    public void setCassaOperation(CassaOperation cassaOperation) {
+        this.cassaOperation = cassaOperation;
+    }
+
+    public Date getInsertDate() {
+        return insertDate;
+    }
+
+    public void setInsertDate(Date insertDate) {
+        this.insertDate = insertDate;
+    }
+
+    public String getManagerName() {
+        return managerName;
+    }
+
+    public void setManagerName(String managerName) {
+        this.managerName = managerName;
     }
 }
 

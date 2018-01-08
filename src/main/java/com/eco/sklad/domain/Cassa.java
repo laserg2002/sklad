@@ -16,11 +16,11 @@ public class Cassa {
     @JoinColumn(name="employee_id")
     private Employee employee;
 
-    @OneToMany(mappedBy = "cassa", orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Pko> pkoList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "cassa", orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Rko> rkoList = new ArrayList<>();
+//    @OneToMany(mappedBy = "cassa", orphanRemoval = true, fetch = FetchType.LAZY)
+//    private List<Pko> pkoList = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "cassa", orphanRemoval = true, fetch = FetchType.LAZY)
+//    private List<Rko> rkoList = new ArrayList<>();
 
     private String cassaName;
     private BigDecimal balance;
