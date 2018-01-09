@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/> 
+
+    <title>РКО</title>
+</head>
+
+<body>
+
+<div th:replace="header"> content here </div>
+
+
+<div class="panel panel-primary col-md-6 col-md-offset-3" style="padding: 0px">
+    <div class="panel-heading"><h4>Розхідний касовий ордер</h4></div>
+    <div class="panel-body" style="background-color: lavenderblush">
+
+        <div >
+            <ul class="text-danger">
+                <li th:each="err : ${#fields.errors('*')}" th:text="${err}" />
+            </ul>
+        </div>
+
+        <form action="#" class="form-horizontal"
+              oninput="resultusd.value=parseFloat(usdAmount.value);
+              resulteu.value=(parseFloat(euroAmount.value)*parseFloat(euroUsdKurs.value)).toFixed(2);
+              resultgrn.value=(parseFloat(uahAmount.value)/parseFloat(usdUahKurs.value)).toFixed(2)"
+              style="padding: 5px;"
+              th:action="@{'/rko/add/'}" th:object="${rko}" th:field="*{rko}" method="get">
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" style="text-align: right" for="sel1">Отримувач:</label>
+                <div class="col-md-4">
+                    <select class="js-example-basic-single form-control"
+                            id="sel1" th:field="${rko.contragent}">
+                        <option th:each="contragent : ${contragentlist}"
+                                th:value="${contragent.id}"
+                                th:text="${contragent.balansName}">Wireframe</option>
+                    </select>
+
+                </div>
+                <label class="col-sm-3 col-form-label" style="text-align: right" for="dat">Дата платежа:</label>
+                <div class="col-md-3">
+                    <input type="date" class="form-control" id="dat"
+                           name="orderDate" th:value="${#dates.format(#dates.createToday(),'yyyy-MM-dd')}"/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label" style="text-align: right">Форма оплати:</label>
+                <div class="col-md-4">
+                    <select class="form-control" name="payment">
+                        <option th:each="paymentType : ${paymenttypelist}"
+                                th:value="${paymentType.description}"
+                                th:text="${paymentType.description}">
+                        </option>
+                    </select>
+
+                </div>
+                <label class="col-sm-2 col-form-label" style="text-align: right">Вид платежа:</label>
+                <div class="col-md-4">
+                    <select class="form-control" name="cassa">
+                        <option th:each="paymentOperation : ${paymentoperationlist}"
+                                th:value="${paymentOperation.description}"
+                                th:text="${paymentOperation.description}">
+                        </option>
+                    </select>
+
+                </div>
+            </div>
+
+
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label" style="text-align: right">Коментар:</label>
+                <div class="col-md-6"><textarea class="form-control" row="5" th:field="${rko.comments}"/>
+                </div>
+
+                <label class="col-md-2 col-form-label" style="text-align: right" for="dd1">Менеджер:</label>
+                <div class="col-md-2"><input type="text" class="form-control" id="dd1" th:field="${rko.managerName}"/>
+
+                    <input type="hidden" th:field="${rko.rkoid}"></input>
+                </div>
+
+
+            </div>
+
+            <!--private BigDecimal pkoAmount = new BigDecimal(0);-->
+            <!--private String comments;-->
+
+            <div>
+                <table class="table text-center">
+                    <thead style="background-color: lavender">
+                    <tr>
+                        <th class="text-center" width="30%"> Прихід </th>
+                        <th class="text-center"> Сума платежа </th>
+                        <th class="text-center"  width="15%"> курс </th>
+                        <th class="text-center" width="30%"> Разом </th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td><label><strong>Сума платежа в USD: </strong></label></td>
+                        <td><input class="form-control" type="text" name="usd" th:field="${rko.usdAmount}"/></td>
+                        <td width="10%"><label class="form-control" type="text" value="1"/></td>
+                        <td><output class="form-control" id="resultusd" name="resultusd"></output></td>
+                    </tr>
+                    <tr >
+                        <td><strong> Сума платежа в Еuro: </strong></td>
+                        <td><input class="form-control" type="text" name="eu" th:field="${rko.euroAmount}"/></td>
+                        <td><input class="form-control" type="text" name="eukurs" th:field="${rko.euroUsdKurs}"/></td>
+                        <td><output class="form-control" id="resulteu" name="resulteu"></output></td>
+                    </tr>
+
+                    <tr>
+                        <td><strong> Сума платежа в грн: </strong></td>
+                        <td><input class="form-control" type="text" name="grn" th:field="${rko.uahAmount}"/></td>
+                        <td><input class="form-control" type="text" name="grnkurs" th:field="${rko.usdUahKurs}"/></td>
+                        <td><output class="form-control" id="resultgrn" name="resultgrn"></output></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-md-9 col-form-label" style="text-align: right">Сумма:</label>
+                <div class="col-md-3">
+                    <div class="form-control" id="amount" th:value="${ammount != null ? #numbers.formatDecimal(ammount,3,2) : '0'}"></div>
+                </div>
+            </div>
+
+            <div class="col-md-5 col-md-offset-7" >
+                <button type="submit" style="margin-right: 5px;" class="btn btn-info btn-lg">ОК</button>
+                <button type="reset" style="margin-right: 5px;" class="btn btn-warning btn-lg">Очистити</button>
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready( function() {
+        var today = new Date();
+        $("#datepicker").val(today.getFullYear() + '-' + ('0' + (today.getMonth() + 1))
+            .slice(-2) + '-' + ('0' + today.getDate()).slice(-2));
+    });​
+
+</script>
+
+
+<script type="text/javascript">
+    $(".js-example-basic-single").select2();
+    var reset = document.getElementById("reset");
+    reset.onclick = ()=>{
+
+        window.history.back();
+    }
+</script>
+
+<script type="text/javascript">
+    $(document).on ("input", function() {
+        total = 0;
+        var total = (parseFloat($('#resultgrn').val())+parseFloat($('#resultusd').val())+parseFloat($('#resulteu').val())).toFixed(2);
+        $("#amount").html(total);
+    });
+</script>
+</body>
+</html>

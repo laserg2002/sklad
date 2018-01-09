@@ -1,5 +1,8 @@
 package com.eco.sklad.domain;
 
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -10,11 +13,13 @@ public class Rko {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    private int rkoid=0;
+
     @Enumerated(EnumType.STRING)
     private PaymentType paymentType;
 
     @Enumerated(EnumType.STRING)
-    private CassaOperation cassaOperation;
+    private PaymentOperation paymentOperation;
 
     @ManyToOne
     private Contragent contragent;
@@ -30,9 +35,10 @@ public class Rko {
     private BigDecimal usdAmount=new BigDecimal("0");
     private BigDecimal uahAmount=new BigDecimal("0");
     private BigDecimal euroAmount=new BigDecimal("0");
-    private BigDecimal rkoAmount=new BigDecimal("0");
-    private Double EuroUsdKurs=1.18d;
-    private Double UsdUahKurs=28.3d;
+    @Generated( value = GenerationTime.ALWAYS )
+    private BigDecimal rkoAmount;
+    private Float EuroUsdKurs=1.18f;
+    private Float UsdUahKurs=28.3f;
     private String comments;
 
     public Rko() {
@@ -40,15 +46,15 @@ public class Rko {
 
     public Rko(Contragent contragent, Date rkoDate, BigDecimal usdAmount,
                BigDecimal uahAmount, BigDecimal euroAmount, BigDecimal rkoAmount,
-               Double euroUsdKurs, Double usdUahKurs, String comments) {
+               Float euroUsdKurs, Float usdUahKurs, String comments) {
         this.contragent = contragent;
         this.rkoDate = rkoDate;
         this.usdAmount = usdAmount;
         this.uahAmount = uahAmount;
         this.euroAmount = euroAmount;
         this.rkoAmount = rkoAmount;
-        EuroUsdKurs = euroUsdKurs;
-        UsdUahKurs = usdUahKurs;
+        this.EuroUsdKurs = euroUsdKurs;
+        this.UsdUahKurs = usdUahKurs;
         this.comments = comments;
     }
 
@@ -108,22 +114,6 @@ public class Rko {
         this.rkoAmount = rkoAmount;
     }
 
-    public Double getEuroUsdKurs() {
-        return EuroUsdKurs;
-    }
-
-    public void setEuroUsdKurs(Double euroUsdKurs) {
-        EuroUsdKurs = euroUsdKurs;
-    }
-
-    public Double getUsdUahKurs() {
-        return UsdUahKurs;
-    }
-
-    public void setUsdUahKurs(Double usdUahKurs) {
-        UsdUahKurs = usdUahKurs;
-    }
-
     public String getComments() {
         return comments;
     }
@@ -140,12 +130,12 @@ public class Rko {
         this.paymentType = paymentType;
     }
 
-    public CassaOperation getCassaOperation() {
-        return cassaOperation;
+    public PaymentOperation getPaymentOperation() {
+        return paymentOperation;
     }
 
-    public void setCassaOperation(CassaOperation cassaOperation) {
-        this.cassaOperation = cassaOperation;
+    public void setPaymentOperation(PaymentOperation paymentOperation) {
+        this.paymentOperation = paymentOperation;
     }
 
     public Date getInsertDate() {
@@ -162,6 +152,51 @@ public class Rko {
 
     public void setManagerName(String managerName) {
         this.managerName = managerName;
+    }
+
+    public int getRkoid() {
+        return rkoid;
+    }
+
+    public void setRkoid(int rkoid) {
+        this.rkoid = rkoid;
+    }
+
+    public Float getEuroUsdKurs() {
+        return EuroUsdKurs;
+    }
+
+    public void setEuroUsdKurs(Float euroUsdKurs) {
+        EuroUsdKurs = euroUsdKurs;
+    }
+
+    public Float getUsdUahKurs() {
+        return UsdUahKurs;
+    }
+
+    public void setUsdUahKurs(Float usdUahKurs) {
+        UsdUahKurs = usdUahKurs;
+    }
+
+    @Override
+    public String toString() {
+        return "Rko{" +
+                "id=" + id +
+                ", rkoid=" + rkoid +
+                ", paymentType=" + paymentType +
+                ", paymentOperation=" + paymentOperation +
+                ", contragent=" + contragent +
+                ", rkoDate=" + rkoDate +
+                ", insertDate=" + insertDate +
+                ", managerName='" + managerName + '\'' +
+                ", usdAmount=" + usdAmount +
+                ", uahAmount=" + uahAmount +
+                ", euroAmount=" + euroAmount +
+                ", rkoAmount=" + rkoAmount +
+                ", EuroUsdKurs=" + EuroUsdKurs +
+                ", UsdUahKurs=" + UsdUahKurs +
+                ", comments='" + comments + '\'' +
+                '}';
     }
 }
 
