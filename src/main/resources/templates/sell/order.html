@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Розхідна накладна</title>
+</head>
+<body style="background-color:lightcyan">
+
+<div th:replace="header"> content here</div>
+
+<div class="col-md-10 col-md-offset-1 panel-info">
+    <!--style="margin-top:5px"-->
+    <div class="panel-heading text-center"><h4>Розхідна накладна</h4>
+    </div>
+
+
+    <div class="panel-body" style="padding: 0px; background-color: white">
+
+        <div>
+            <ul class="text-danger">
+                <li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
+            </ul>
+        </div>
+
+        <!--///////////////////////////////ФОРМА//////////////////////////-->
+        <form style="padding: 10px; alignment: center;" class="form-horizontal" action="showAllInvoices"
+              th:action="@{/sell/addinvoice}" th:object="${neworder}" method="get">
+
+            <div class="row">
+                <div class="col-md-1 col-md-offset-1">
+                    <label style="text-align: right" for="sel1" class="control-label">Покупець:</label>
+                </div>
+                <div class="col-md-2">
+
+                    <select class="js-example-basic-single form-control"
+                            id="sel1" th:field="*{customer}">
+                        <option th:each="contragent : ${contragentlist}"
+                                th:value="${contragent.id}"
+                                th:selected="${contragent.id} == (${customer != null} ? ${customer.id}: '0')"
+                                th:text="${contragent.balansName}">Wireframe
+                        </option>
+                    </select>
+
+                    <input type="hidden" th:field="${neworder.id}"></input>
+                    <!--<input type="hidden" th:field="${neworder.orderDate}"></input>-->
+                    <!--<input type="hidden" th:field="${neworder.customer}"></input>-->
+                </div>
+                <div class="col-md-1 col-md-offset-1">
+                    <label style="text-align: right" for="f2" class="control-label">Дата продажу:</label>
+                </div>
+
+
+                <div class="col-md-2">
+                    <input type="date" class="form-control" id="f2" name="orderDate"
+                           th:value="${neworder.orderDate != null}? ${#dates.format(neworder.orderDate,'yyyy-MM-dd')}
+                           : ${#dates.format(#dates.createToday(),'yyyy-MM-dd')}"/>
+                    <!--th:value="${#dates.format(#dates.createToday(),'yyyy-MM-dd')}"/>-->
+                </div>
+
+                <div class="col-md-1 col-md-offset-1">
+                    <label style="text-align: right" for="f3" class="control-label">Менеджер:</label>
+                </div>
+
+
+                <div class="col-md-2">
+                    <input class="form-control" id="f3" th:field="${neworder.managerName}" readonly="readonly"/>
+                </div>
+
+
+            </div>
+
+
+            <div class="invoicelines" style="padding-top: 15px;" th:unless="${#lists.isEmpty(neworder.orderLines)}">
+                <table style="text-align: center;" class="table table-bordered table-condensed text-center">
+                    <thead style="text-align: center; background-color: #c5e4f4">
+                    <tr>
+                        <th width="40" style="text-align: center;" th:text="N">Date Planted</th>
+                        <th width="300" style="text-align: center;" th:text="Товар">Date Planted</th>
+                        <th width="150" style="text-align: center;" th:text="Кількість">Covered</th>
+                        <th width="150" style="text-align: center;" th:text="Ціна">Type</th>
+                        <th width="150" style="text-align: center;" th:text="Разом">Type</th>
+                        <th width="200" style="text-align: center;" th:text="Операція"></th>
+                        <th width="40"></th>
+                        <th width="40"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="item" th:each="orderline,rowStat : ${neworder.orderLines}">
+                        <td th:text="${rowStat.count}">13/01/2011</td>
+                        <td th:text="${orderline.product.shortName}">13/01/2011</td>
+                        <td><output style="padding: 0px" class="qnty" th:text="${orderline.quantity}"/></td>
+                        <td><output style="padding: 0px" class="price" th:text="${orderline.salePrice}"/></td>
+                        <td><output type="text" style="padding: 0px" class="total0" id="total0"></output>
+
+                        </td>
+                        <td th:text="${orderline.salesType.description}">Electric Heating, Turf</td>
+                        <td><a th:href="@{'/sell/orderline/edit/'+${rowStat.count}}">
+                            <span class="glyphicon glyphicon-edit"></span></a></td>
+                        <td><a th:href="@{'/sell/orderline/delete/'+${rowStat.count}}">
+                            <span class="glyphicon glyphicon-trash"></span></a></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="row col-md-5 col-md-offset-7">
+                <p><u><strong>Загальна сума ПН:
+                    <output type="text" style="display: inline" id="result"></output>
+                </strong></u></p>
+                </div>
+            </div>
+
+            <!--<hr style="width: 83%; color: black; height: 1px; background-color:lightgray;" />-->
+                <!--<p><u><strong>Загальна сума ПН:-->
+                    <!--<output type="text" style="display: inline" id="result1"></output>-->
+                <!--</strong></u></p>-->
+            <!--</div>-->
+            <div class="row">
+                <div class="col-md-9">
+                    <input type="submit" value="Додати позицію" name="addline" class="btn btn-info btn-md">
+                        <!--<span class="glyphicon glyphicon-plus-sign"></span> Додати позицію-->
+                    </input>
+                    <a href="/sell/clear" type="submit" class="btn btn-info btn-md">
+                        <span class="glyphicon glyphicon-minus-sign"></span> Очистити накладну
+                    </a>
+                </div>
+                <div class="row col-md-3">
+                    <!--<hr style="width: 95%; color: black; height: 1px;" />-->
+
+                    <input type="submit" value="Провести" class="btn btn-lg btn-primary "/>
+                    <input type="reset" value="Вихід" class="btn btn-lg btn-warning"/>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+</body>
+
+
+<script type="text/javascript">
+    $(".js-example-basic-single").select2();
+    var reset = document.getElementById("reset");
+    reset.onclick = ()=>{window.history.back();}
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var total = 0;
+        var total1 = 0;
+        var qnty = 0;
+        var price = 0;
+        $('.item').each(function () {
+            if (!isNaN(parseFloat($(this).find('.qnty').val()))) {
+                qnty = parseFloat($(this).find('.qnty').val());
+            }
+            if (!isNaN(parseFloat($(this).find('.price').val()))) {
+                price = parseFloat($(this).find(".price").val());
+            }
+//            alert($(this).find('.qnty'));
+            total1 = qnty * price;
+            $(this).find(".total0").val(total1.toFixed(2));
+            total += total1;
+        });
+        $('#result').val(total.toFixed(2));
+    });
+
+</script>
+
+</html>

@@ -1,10 +1,9 @@
 package com.eco.sklad.domain;
 
+
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "orders")
@@ -17,21 +16,40 @@ public class Order {
     @Temporal(TemporalType.DATE)
     private Date orderDate;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date insertDate;
+
     @ManyToOne
     private Contragent customer;
 
-    private BigDecimal orderDiscount;
     private BigDecimal totalOrder;
-    private Boolean finalized=false;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderLines> orderLines = new ArrayList<>();
 
-    @ManyToOne
-    private User salesManager;
+    private String managerName;
 
 
     public Order() {
+    }
+
+
+    public void addOrderLines(OrderLines orderLine) {
+        Set<OrderLines> dtoSet = new HashSet<>(this.orderLines);
+        dtoSet.add(orderLine);
+        this.orderLines=new ArrayList<>(dtoSet);
+    }
+
+    public void removeOrderLine(int lineNumber){
+        this.orderLines.remove(lineNumber);
+    }
+
+    public Date getInsertDate() {
+        return insertDate;
+    }
+
+    public void setInsertDate(Date insertDate) {
+        this.insertDate = insertDate;
     }
 
     public int getId() {
@@ -42,21 +60,15 @@ public class Order {
         this.id = id;
     }
 
-    public User getSalesManager() {
-        return salesManager;
-    }
 
-    public Boolean getFinalized() {
-        return finalized;
-    }
+//    public Boolean getFinalized() {
+//        return finalized;
+//    }
+//
+//    public void setFinalized(Boolean finalized) {
+//        this.finalized = finalized;
+//    }
 
-    public void setFinalized(Boolean finalized) {
-        this.finalized = finalized;
-    }
-
-    public void setSalesManager(User salesManager) {
-        this.salesManager = salesManager;
-    }
 
     public Date getOrderDate() {
         return orderDate;
@@ -74,14 +86,6 @@ public class Order {
         this.customer = customer;
     }
 
-    public BigDecimal getOrderDiscount() {
-        return orderDiscount;
-    }
-
-    public void setOrderDiscount(BigDecimal orderDiscount) {
-        this.orderDiscount = orderDiscount;
-    }
-
     public BigDecimal getTotalOrder() {
         return totalOrder;
     }
@@ -96,5 +100,25 @@ public class Order {
 
     public void setOrderLines(List<OrderLines> orderLines) {
         this.orderLines = orderLines;
+    }
+
+    public String getManagerName() {
+        return managerName;
+    }
+
+    public void setManagerName(String managerName) {
+        this.managerName = managerName;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", orderDate=" + orderDate +
+                ", customer=" + customer +
+                ", totalOrder=" + totalOrder +
+                ", orderLines=" + orderLines +
+                ", salesManager=" + managerName +
+                '}';
     }
 }

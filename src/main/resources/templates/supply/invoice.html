@@ -69,9 +69,10 @@
                 <td th:text="${invoiceline.quantity}">yes</td>
                 <td th:text="${invoiceline.price}">yes</td>
                 <td>
-                <output type="text" style="padding: 0px; margin: 0px" class="item" th:text="${invoiceline.itemTotal}"></output>
+                <output type="text" style="padding: 0px; margin: 0px" class="item"
+                        th:text="${invoiceline.itemTotal}"></output>
                 </td>
-                <td th:text="${invoiceline.salesType}">Electric Heating, Turf</td>
+                <td th:text="${invoiceline.salesType.description}">Electric Heating, Turf</td>
                 <td><a th:href="@{'/supply/invoiceline/edit/'+${rowStat.count}}">
                     <span class="glyphicon glyphicon-edit"></span></a></td>
                 <td><a th:href="@{'/supply/invoiceline/delete/'+${rowStat.count}}">

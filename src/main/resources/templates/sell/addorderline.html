@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+
+    <title>Виберіть постачальника</title>
+</head>
+
+<body>
+
+<div th:replace="header"> content here </div>
+
+
+<div class="panel panel-primary col-md-6 col-md-offset-3" style="padding: 0px">
+    <div class="panel-heading"><h4>Додайте товарну позицію</h4></div>
+
+    <div class="panel-body" style="background-color: lavenderblush">
+
+
+        <form class="form-horizontal" style="padding: 10px;" action="#" th:action="@{'/sell/neworder/'}"
+              th:object="${neworderline}" method="post">
+
+            <!--<input th:type="hidden" th:field="${neworder.managerName}"></input>-->
+            <!--<input type="hidden" th:field="${neworder.id}"></input>-->
+            <!--<input type="hidden" th:field="${neworder.orderDate}"></input>-->
+            <!--<input type="hidden" th:field="${neworder.customer}"></input>-->
+
+
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label" for="sel">Номенклатура:</label>
+                <div class="col-md-8 col-md-offset-2">
+                    <select class="js-example-basic-single form-control" id="sel" th:field="${neworderline.product.id}">
+                        <option th:each="product : ${productlist}"
+                                th:value="${product.id}"
+                                th:text="${product.shortName}">Wireframe</option>
+                    </select>
+                </div>
+            </div><p></p>
+
+
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label" for="quant">Кількість:</label>
+                <div class="col-md-7 col-md-offset-2">
+                    <input type="number" class="form-control" id="quant" placeholder="Введіть кількість:"
+                           th:field="${neworderline.quantity}" th:value="0" autocomplete="off"/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-form-label col-md-1" for="price">Ціна:</label>
+                <div  class="col-md-7 col-md-offset-2">
+                    <input type="text"  class="form-control" id="price" placeholder="Введіть ціну"
+                           th:field="${neworderline.salePrice}" th:value="0" autocomplete="off"/>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-form-label col-md-1" for="totalsum">Разом:</label>
+                <div  class="col-md-7 col-md-offset-2">
+                <output type="text"  class="form-control" id="totalsum"/>
+                </div>
+
+            </div>
+            <div class="form-group row">
+            <label class="col-form-label col-md-1" style="text-align: right">Форма оплати:</label>
+            <div class="col-md-7 col-md-offset-2">
+                <select class="form-control" name="saletype">
+                    <option th:each="saleType : ${saletypelist}"
+                            th:value="${saleType.description}"
+                            th:text="${saleType.description}">
+                    </option>
+                </select>
+
+            </div></div>
+
+            <div>
+                <button type="submit" style="margin-right: 5px;" class="btn btn-info col-md-2 col-md-offset-5">Додати</button>
+                <button type="reset" style="margin-left: 5px;" id="reset" class="btn btn-warning">Повернутись</button>
+                <!--<input type="submit" value="Submit" /> <input type="reset" value="Reset" id="reset"/>-->
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(".js-example-basic-single").select2();
+
+    var reset = document.getElementById("reset");
+    reset.onclick = ()=>{
+        $("#sel").html("0");
+        window.history.back();
+    }
+</script>
+
+<script type="text/javascript">
+    $(document).on ("input", function() {
+        var total = $('#quant').val()*$('#price').val();
+        $("#totalsum").html(total);
+    });
+
+</script>
+
+</body>
+</html>

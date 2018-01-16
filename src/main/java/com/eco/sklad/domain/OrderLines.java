@@ -16,11 +16,25 @@ public class OrderLines {
     private Product product;
 
     private int quantity;
-    private BigDecimal salePrice;
-    private BigDecimal discount;
-    private String salesType;
+    private BigDecimal salePrice = new BigDecimal(0);
+
+    @Enumerated(EnumType.STRING)
+    private SaleType salesType;
 
     public OrderLines() {
+    }
+
+    public OrderLines(Product product, int quantity, BigDecimal salePrice) {
+        this.product = product;
+        this.quantity = quantity;
+        this.salePrice = salePrice;
+    }
+
+    public OrderLines(Product product, int quantity, BigDecimal salePrice, SaleType salesType) {
+        this.product = product;
+        this.quantity = quantity;
+        this.salePrice = salePrice;
+        this.salesType = salesType;
     }
 
     public int getId() {
@@ -47,11 +61,11 @@ public class OrderLines {
         this.product = product;
     }
 
-    public String getSalesType() {
+    public SaleType getSalesType() {
         return salesType;
     }
 
-    public void setSalesType(String salesType) {
+    public void setSalesType(SaleType salesType) {
         this.salesType = salesType;
     }
 
@@ -71,11 +85,36 @@ public class OrderLines {
         this.salePrice = salePrice;
     }
 
-    public BigDecimal getDiscount() {
-        return discount;
+    @Override
+    public String toString() {
+        return "OrderLines{" +
+                "id=" + id +
+                ", product=" + product +
+                ", quantity=" + quantity +
+                ", salePrice=" + salePrice +
+                ", salesType='" + salesType + '\'' +
+                '}';
     }
 
-    public void setDiscount(BigDecimal discount) {
-        this.discount = discount;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        OrderLines that = (OrderLines) o;
+
+        if (!product.equals(that.product)) return false;
+        if (!salePrice.equals(that.salePrice)) return false;
+        return salesType.equals(that.salesType);
+    }
+
+    @Override
+    public int hashCode() {
+//    shortName != null ? shortName.hashCode() : 0;
+        int result = this.product != null ? this.product.hashCode() : 99;
+        result = 31 * result + quantity;
+        result = 31 * result + (salePrice != null ? salePrice.hashCode() : 99);
+        result = 31 * result + (salesType != null ? salesType.hashCode() : 99);
+        return result;
     }
 }

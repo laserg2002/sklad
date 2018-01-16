@@ -16,6 +16,9 @@ public class SupplyLines {
     @ManyToOne
     private Product product;
 
+    @Enumerated(EnumType.STRING)
+    private SaleType salesType;
+
     private int quantity;
     private BigDecimal price;
 
@@ -25,6 +28,14 @@ public class SupplyLines {
     public SupplyLines(Supplies supply, Product product, int quantity, BigDecimal price) {
         this.supply = supply;
         this.product = product;
+        this.quantity = quantity;
+        this.price = price;
+    }
+
+    public SupplyLines(Supplies supply, Product product, SaleType salesType, int quantity, BigDecimal price) {
+        this.supply = supply;
+        this.product = product;
+        this.salesType = salesType;
         this.quantity = quantity;
         this.price = price;
     }
@@ -67,5 +78,13 @@ public class SupplyLines {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public SaleType getSalesType() {
+        return salesType;
+    }
+
+    public void setSalesType(SaleType salesType) {
+        this.salesType = salesType;
     }
 }

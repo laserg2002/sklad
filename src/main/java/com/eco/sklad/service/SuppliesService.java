@@ -53,6 +53,7 @@ public class SuppliesService {
                     ) {
                 SupplyLines supplyLine = new SupplyLines( supplies,
                         productRepo.findOne(invoiceLineDTO.getProductId()),
+                        invoiceLineDTO.getSalesType(),
                         invoiceLineDTO.getQuantity(),
                         invoiceLineDTO.getPrice());
                 total = total.add(invoiceLineDTO.getItemTotal());
@@ -70,6 +71,7 @@ public class SuppliesService {
                 ) {
             SupplyLines supplyLine = new SupplyLines( supplies1,
                     productRepo.findOne(invoiceLineDTO.getProductId()),
+                    invoiceLineDTO.getSalesType(),
                     invoiceLineDTO.getQuantity(),
                     invoiceLineDTO.getPrice());
             suppliesLinesRepo.save(supplyLine);

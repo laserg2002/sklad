@@ -1,5 +1,7 @@
 package com.eco.sklad.DTO;
 
+import com.eco.sklad.domain.SaleType;
+
 import java.math.BigDecimal;
 
 public class InvoiceLineDTO {
@@ -13,7 +15,8 @@ public class InvoiceLineDTO {
     private BigDecimal extraFee = new BigDecimal("0");
     private BigDecimal finalPrice = new BigDecimal("0");
     private BigDecimal itemTotal = new BigDecimal("0");
-    private String salesType = "1";
+    private String salesTypeA;
+    private SaleType salesType;
 
     public InvoiceLineDTO() {
     }
@@ -22,13 +25,29 @@ public class InvoiceLineDTO {
         this.id = id;
     }
 
-    public InvoiceLineDTO(int id, int productId, int quantity, String productName, BigDecimal price) {
+    public InvoiceLineDTO(int id, int productId, int quantity, String productName, BigDecimal price, SaleType salesType) {
         this.productId = productId;
         this.id = id;
         this.productName = productName;
         this.quantity = quantity;
         this.price = price;
         this.itemTotal = price.multiply(new BigDecimal(quantity));
+        this.salesType = salesType;
+    }
+
+
+
+
+    public String getSalesTypeA() {
+        return salesTypeA;
+    }
+
+    public void setSalesTypeA(String salesTypeA) {
+        this.salesTypeA = salesTypeA;
+    }
+
+    public void setSalesType(SaleType salesType) {
+        this.salesType = salesType;
     }
 
     public int getId() {
@@ -111,12 +130,8 @@ public class InvoiceLineDTO {
         this.itemTotal = itemTotal;
     }
 
-    public String getSalesType() {
+    public SaleType getSalesType() {
         return salesType;
-    }
-
-    public void setSalesType(String salesType) {
-        this.salesType = salesType;
     }
 
     @Override
@@ -137,7 +152,6 @@ public class InvoiceLineDTO {
         int result = productId;
         result = 31 * result + quantity;
         result = 31 * result + price.hashCode();
-        result = 31 * result + salesType.hashCode();
         return result;
     }
 
@@ -151,7 +165,7 @@ public class InvoiceLineDTO {
                 ", price=" + price +
                 ", invoice=" + invoiceId +
                 ", itemTotal=" + itemTotal +
-                ", salesType='" + salesType + '\'' +
+                ", salesType='" + salesTypeA + '\'' +
                 '}';
     }
 }

@@ -1,6 +1,5 @@
 package com.eco.sklad.repository;
 
-import com.eco.sklad.domain.Supplies;
 import com.eco.sklad.domain.SupplyLines;
 import org.springframework.data.jpa.repository.JpaRepository;
 

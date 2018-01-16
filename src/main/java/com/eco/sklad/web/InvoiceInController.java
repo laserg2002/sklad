@@ -6,7 +6,6 @@ import com.eco.sklad.domain.*;
 import com.eco.sklad.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -48,6 +47,11 @@ public class InvoiceInController {
             return  contragentService.findAll();
         }
 
+    @ModelAttribute("saletypelist")
+    public List<SaleType> allSaleTypes() {
+        return Arrays.asList(SaleType.values());
+    }
+
     @GetMapping ("/supplies")
     public String showAllSupplies(Supplies supplies, ModelMap model) {
         model.addAttribute("supplieslist", suppliesService.findAll());
@@ -82,6 +86,8 @@ public class InvoiceInController {
             invoiceLineDTO.setProductId(id);
             invoiceLineDTO.setItemTotal(invoiceLineDTO.getPrice().multiply(new BigDecimal(invoiceLineDTO.getQuantity())));
             invoiceLineDTO.setProductName(productService.findOne(id).getShortName());
+            SaleType salesType = SaleType.fromString(invoiceLineDTO.getSalesTypeA());
+            invoiceLineDTO.setSalesType(salesType);
             invoiceLineDTOS.add(invoiceLineDTO);
             Set<InvoiceLineDTO> dtosSet = new HashSet<>(invoiceLineDTOS);
             invoiceLineDTOS=new ArrayList<>(dtosSet);
@@ -108,8 +114,8 @@ public class InvoiceInController {
         InvoiceLineDTO invoiceLineDTO = new InvoiceLineDTO();
         int i=1;
         for (SupplyLines sup:supplyList){
-            invoiceLineDTO = new InvoiceLineDTO(i, sup.getProduct().getId(), sup.getQuantity(), sup.getProduct().getShortName(),
-                    sup.getPrice());
+            invoiceLineDTO = new InvoiceLineDTO(i, sup.getProduct().getId(), sup.getQuantity(),
+                    sup.getProduct().getShortName(), sup.getPrice(), sup.getSalesType());
                     invoiceLineDTO.setInvoiceId(id);
                     invoiceLineDTOS.add(invoiceLineDTO);
                     i=+1;
@@ -167,7 +173,7 @@ public class InvoiceInController {
     @RequestMapping(value="/addinvoice", method = RequestMethod.POST)
     public String addInvoicePost(ModelMap model) {
         suppliesService.addSupply(invoiceDTO, invoiceLineDTOS);
-        return "/index";
+        return "redirect:/supply/supplies";
     }
 
 

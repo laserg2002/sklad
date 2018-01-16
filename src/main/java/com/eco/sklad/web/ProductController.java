@@ -3,6 +3,7 @@ package com.eco.sklad.web;
 import com.eco.sklad.domain.Producer;
 import com.eco.sklad.domain.Product;
 import com.eco.sklad.domain.Pcs;
+import com.eco.sklad.domain.ProductState;
 import com.eco.sklad.service.ProducerService;
 import com.eco.sklad.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,11 @@ public class ProductController {
         return  Arrays.asList(Pcs.values());
     }
 
+    @ModelAttribute("productstatelist")
+    public List<ProductState> allProductState() {
+        return  Arrays.asList(ProductState.values());
+    }
+
     @GetMapping
         public String showAllProducts(Product product, Model model) {
             model.addAttribute("productlist", productService.findAll());
@@ -59,8 +65,16 @@ public class ProductController {
         }
 
         @RequestMapping(value="/add", method = RequestMethod.POST)
-        public String addProductPost(@Valid @ModelAttribute Product product, BindingResult bindingResult) {
-            if (bindingResult.hasErrors()) {
+        public String addProductPost(
+                @RequestParam(value = "ppcs", required = false) String ppcs,
+                @RequestParam(value = "prodstate", required = false) String prodState,
+                @Valid @ModelAttribute Product product, BindingResult bindingResult) {
+            Pcs pcs = Pcs.fromString(ppcs);
+            ProductState productState = ProductState.fromString(prodState);
+            product.setProductState(productState);
+            product.setPcs(pcs);
+            System.out.println(product);
+        if (bindingResult.hasErrors()) {
                 return "product/productform";
             }
             productService.addProduct(product);

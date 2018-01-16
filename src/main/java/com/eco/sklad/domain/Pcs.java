@@ -13,6 +13,16 @@ public enum Pcs {
 
     public String getPcs() {return description;}
 
+    public static Pcs fromString(String text) {
+        for (Pcs b : Pcs.values()) {
+            if (b.description.equals(text.trim())) {
+                return b;
+            }
+        }
+        return null;
+    }
+
+
     @Override
     public String toString() {
         return "Pcs{" +

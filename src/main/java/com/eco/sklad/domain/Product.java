@@ -21,10 +21,10 @@ public class Product {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    private Pcs pcs=Pcs.PCS_PCS;
+    private Pcs pcs;
 
-//    @Enumerated(EnumType.STRING)
-//    private ProductState productState;
+    @Enumerated(EnumType.STRING)
+    private ProductState productState;
 
     @ManyToOne
     @JoinColumn(name = "id_pr")
@@ -52,13 +52,13 @@ public class Product {
         this.description = description;
     }
 
-//    public ProductState getProductState() {
-//        return productState;
-//    }
-//
-//    public void setProductState(ProductState productState) {
-//        this.productState = productState;
-//    }
+    public ProductState getProductState() {
+        return productState;
+    }
+
+    public void setProductState(ProductState productState) {
+        this.productState = productState;
+    }
 
     public List<ProductsOnStock> getProductsOnStocks() {
         return productsOnStocks;
@@ -141,10 +141,29 @@ public class Product {
                 ", partNumber='" + partNumber + '\'' +
                 ", description='" + description + '\'' +
                 ", pcs=" + pcs +
-                ", producer=" + producer +
+                ", state=" + productState +
                 ", productsOnStocks=" + productsOnStocks +
-                ", supplyLinesList=" + supplyLinesList +
                 ", categoryProducts=" + categoryProducts +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Product product = (Product) o;
+
+        if (shortName != null ? !shortName.equals(product.shortName) : product.shortName != null) return false;
+        if (longName != null ? !longName.equals(product.longName) : product.longName != null) return false;
+        if (partNumber != null ? !partNumber.equals(product.partNumber) : product.partNumber != null) return false;
+        return pcs == product.pcs;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = shortName != null ? shortName.hashCode() : 0;
+        result = 31 * result + (longName != null ? longName.hashCode() : 0);
+        return result;
     }
 }

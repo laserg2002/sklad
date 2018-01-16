@@ -40,7 +40,7 @@
             <div class="form-group">
                 <div class="col-md-3 text-right"><label class="control-label">Короткий опис:</label></div>
                 <div class="col-md-7"><textarea class='form-control' row='5'
-                                                th:field="*{description}" value="" placeholder='Usernam'/></div>
+                                                th:field="*{description}" value="" placeholder='Короткий опис'/></div>
             </div>
 
             <div class="form-group">
@@ -54,11 +54,21 @@
                     </select>
                 </div>
                 <div class="col-md-2 text-right"><label class="control-label">Одиниця виміру:</label></div>
-                <div class="col-md-2"><select class="form-control input-sm" th:object="${product.pcs}" th:field="*{pcs}">
+                <div class="col-md-2"><select class="form-control input-sm" name="ppcs">
                     <!--${T(com.eco.sklad.domain.Pcs).values()}"-->
                     <option th:each="pcs : ${pcslist}"
-                            th:value="${product.pcs}"
+                            th:value="${pcs.description}"
                             th:text="${pcs.description}">
+                    </option>
+                </select>
+                </div>
+                <div class="col-md-2 text-right"><label class="control-label">Стан товара:</label></div>
+                <div class="col-md-2"><select class="form-control input-sm" name="prodstate">
+                    <!--${T(com.eco.sklad.domain.Pcs).values()}"-->
+                    <option th:each="productstate : ${productstatelist}"
+                            th:value="${productstate.description}"
+                            th:text="${productstate.description}">
+
                     </option>
                 </select>
                 </div>

@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-@RequestMapping(value="/rko")
+@RequestMapping(value = "/rko")
 public class RKOController {
 
     @Autowired
@@ -33,12 +33,12 @@ public class RKOController {
 
     @ModelAttribute("paymentoperationlist")
     public List<PaymentOperation> allPaymOp() {
-        return  Arrays.asList(PaymentOperation.values());
+        return Arrays.asList(PaymentOperation.values());
     }
 
     @ModelAttribute("paymenttypelist")
     public List<PaymentType> allPaymTypes() {
-        return  Arrays.asList(PaymentType.values());
+        return Arrays.asList(PaymentType.values());
     }
 
     @GetMapping
@@ -64,7 +64,6 @@ public class RKOController {
     public String showRkoForm(@PathVariable("id") Integer id, ModelMap model) {
         Rko rko = rkoService.findOne(id);
         rko.setRkoid(rko.getId());
-        System.out.println("hhhhhhhhhhhh"+rko);
         model.addAttribute("rko", rko);
         return "rko/rkoform";
     }
@@ -78,9 +77,9 @@ public class RKOController {
         return "rko/rkoform";
     }
 
-    @RequestMapping(value="/add")
+    @RequestMapping(value = "/add")
     public String addRkoPost(ModelMap model,
-                             @RequestParam("orderDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date oDate,
+                             @RequestParam("orderDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date oDate,
                              @RequestParam("payment") String payment,
                              @RequestParam("cassa") String cassa,
                              @ModelAttribute Rko rko,
@@ -93,7 +92,7 @@ public class RKOController {
         rko.setPaymentType(paymentType);
         rko.setPaymentOperation(paymentOperation);
         rko.setRkoDate(oDate);
-        System.out.println("jjjjjjjjjjjjjjjjjjj"+rko);
+        System.out.println("jjjjjjjjjjjjjjjjjjj" + rko);
 
         if (bindingResult.hasErrors()) {
             System.out.println(bindingResult);
