@@ -3,6 +3,7 @@ package com.eco.sklad.domain;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -19,6 +20,10 @@ public class Product {
 //    private String serialNumber;
     private String partNumber;
     private String description;
+
+    private BigDecimal suplyPrice = new BigDecimal("0.00");
+    private BigDecimal price0 = new BigDecimal("0.00");
+    private BigDecimal price = new BigDecimal("0.00");
 
     @Enumerated(EnumType.STRING)
     private Pcs pcs;
@@ -42,6 +47,31 @@ public class Product {
     private Set<CategoryProduct> categoryProducts = new HashSet<>();
 
     public Product() {
+    }
+
+    public BigDecimal getPrice0() {
+        return price0;
+    }
+
+    public void setPrice0(BigDecimal price0) {
+        this.price0 = price0;
+    }
+
+
+    public BigDecimal getSuplyPrice() {
+        return suplyPrice;
+    }
+
+    public void setSuplyPrice(BigDecimal suplyPrice) {
+        this.suplyPrice = suplyPrice;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     public String getDescription() {
@@ -142,8 +172,8 @@ public class Product {
                 ", description='" + description + '\'' +
                 ", pcs=" + pcs +
                 ", state=" + productState +
-                ", productsOnStocks=" + productsOnStocks +
-                ", categoryProducts=" + categoryProducts +
+//                ", productsOnStocks=" + productsOnStocks +
+//                ", categoryProducts=" + categoryProducts +
                 '}';
     }
 

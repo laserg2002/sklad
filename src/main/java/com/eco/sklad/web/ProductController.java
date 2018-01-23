@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Controller
-@RequestMapping(value="/product")
+@RequestMapping(value = "/product")
 public class ProductController {
     @Autowired
     ProductService productService;
@@ -33,58 +33,62 @@ public class ProductController {
 
     @ModelAttribute("pcslist")
     public List<Pcs> allPcs() {
-        return  Arrays.asList(Pcs.values());
+        return Arrays.asList(Pcs.values());
     }
 
     @ModelAttribute("productstatelist")
     public List<ProductState> allProductState() {
-        return  Arrays.asList(ProductState.values());
+        return Arrays.asList(ProductState.values());
     }
 
     @GetMapping
-        public String showAllProducts(Product product, Model model) {
-            model.addAttribute("productlist", productService.findAll());
-            return "product/productlist";
-        }
-
-        @RequestMapping("/edit/{idProduct}")
-        public String showProductForm(@PathVariable("idProduct") Integer id, ModelMap model) {
-            Product product = productService.findOne(id);
-            model.addAttribute("product", product);
-//            model.addAttribute("producerlist", producerService.findAll());
-//            model.addAttribute("pcslist", Arrays.asList(Pcs.values()));
-            return "product/productform";
-        }
-
-
-        @GetMapping("/new")
-        public String addProductForm( ModelMap model) {
-            List<Pcs> pcsList = Arrays.asList(Pcs.values());
-            model.addAttribute("product", new Product());
-            return "product/productform";
-        }
-
-        @RequestMapping(value="/add", method = RequestMethod.POST)
-        public String addProductPost(
-                @RequestParam(value = "ppcs", required = false) String ppcs,
-                @RequestParam(value = "prodstate", required = false) String prodState,
-                @Valid @ModelAttribute Product product, BindingResult bindingResult) {
-            Pcs pcs = Pcs.fromString(ppcs);
-            ProductState productState = ProductState.fromString(prodState);
-            product.setProductState(productState);
-            product.setPcs(pcs);
-            System.out.println(product);
-        if (bindingResult.hasErrors()) {
-                return "product/productform";
-            }
-            productService.addProduct(product);
-            return "redirect:/product";
-        }
-
-        @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-        public String delete(@PathVariable int id, ModelMap model) {
-            productService.delete(id);
-            return "redirect:/product";
-        }
-
+    public String showAllProducts(Product product, Model model) {
+        model.addAttribute("productlist", productService.findAll());
+        return "product/productlist";
     }
+
+    @RequestMapping("/prices")
+    public String showProductPrices(Product product, Model model) {
+        model.addAttribute("productlist", productService.findAll());
+        return "product/productprices";
+    }
+
+    @RequestMapping("/edit/{idProduct}")
+    public String showProductForm(@PathVariable("idProduct") Integer id, ModelMap model) {
+        Product product = productService.findOne(id);
+        model.addAttribute("product", product);
+        return "product/productform";
+    }
+
+
+    @GetMapping("/new")
+    public String addProductForm(ModelMap model) {
+        List<Pcs> pcsList = Arrays.asList(Pcs.values());
+        model.addAttribute("product", new Product());
+        return "product/productform";
+    }
+
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public String addProductPost(
+            @RequestParam(value = "ppcs", required = false) String ppcs,
+            @RequestParam(value = "prodstate", required = false) String prodState,
+            @Valid @ModelAttribute Product product, BindingResult bindingResult) {
+        Pcs pcs = Pcs.fromString(ppcs);
+        ProductState productState = ProductState.fromString(prodState);
+        product.setProductState(productState);
+        product.setPcs(pcs);
+        System.out.println(product);
+        if (bindingResult.hasErrors()) {
+            return "product/productform";
+        }
+        productService.addProduct(product);
+        return "redirect:/product";
+    }
+
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    public String delete(@PathVariable int id, ModelMap model) {
+        productService.delete(id);
+        return "redirect:/product";
+    }
+
+}

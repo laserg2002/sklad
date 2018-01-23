@@ -24,7 +24,7 @@
 
         <!--///////////////////////////////ФОРМА//////////////////////////-->
         <form style="padding: 10px; alignment: center;" class="form-horizontal" action="showAllInvoices"
-              th:action="@{/sell/addinvoice}" th:object="${neworder}" method="get">
+              th:action="@{/sell/addinvoice}" th:object="${neworder}" method="post">
 
             <div class="row">
                 <div class="col-md-1 col-md-offset-1">
@@ -33,10 +33,10 @@
                 <div class="col-md-2">
 
                     <select class="js-example-basic-single form-control"
-                            id="sel1" th:field="*{customer}">
+                            th:id="customer" th:name="customer">
                         <option th:each="contragent : ${contragentlist}"
                                 th:value="${contragent.id}"
-                                th:selected="${contragent.id} == (${customer != null} ? ${customer.id}: '0')"
+                                th:selected="${contragent.id} == (${neworder.customer != null} ? ${neworder.customer.id} : '0')"
                                 th:text="${contragent.balansName}">Wireframe
                         </option>
                     </select>
@@ -101,11 +101,13 @@
                     </tr>
                     </tbody>
                 </table>
-                <div class="row col-md-5 col-md-offset-7">
-                <p><u><strong>Загальна сума ПН:
-                    <output type="text" style="display: inline" id="result"></output>
-                </strong></u></p>
-                </div>
+                <div class="row">
+                    <div  class="col-md-2 col-md-offset-5">
+                        <label class="control-label" for="result" ><h5><i><u>Загальна сума РН:</u></i></h5></label></div>
+
+                    <div class="col-md-2">
+                        <output type="text" class="form-control" id="result"></output>
+                    </div></div>
             </div>
 
             <!--<hr style="width: 83%; color: black; height: 1px; background-color:lightgray;" />-->

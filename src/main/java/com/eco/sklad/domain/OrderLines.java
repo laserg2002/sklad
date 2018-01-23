@@ -57,6 +57,10 @@ public class OrderLines {
         return product;
     }
 
+    public BigDecimal getTotal(){
+        return this.salePrice.multiply(new BigDecimal(this.quantity));
+    }
+
     public void setProduct(Product product) {
         this.product = product;
     }
@@ -89,10 +93,10 @@ public class OrderLines {
     public String toString() {
         return "OrderLines{" +
                 "id=" + id +
-                ", product=" + product +
+                ", order=" + order.getId() +
+                ", product=" + product.getId() +
                 ", quantity=" + quantity +
                 ", salePrice=" + salePrice +
-                ", salesType='" + salesType + '\'' +
                 '}';
     }
 

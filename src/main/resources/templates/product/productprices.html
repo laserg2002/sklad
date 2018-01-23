@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+     
+    <title>Список номенклатури</title>
+</head>
+<body style="background-color:lightcyan">
+<div th:replace="header"> content here</div>
+
+<div class="col-sm-12 text-center">
+    <h4><strong>Список номенклатури</strong></h4>
+</div>
+
+<div class="container-fluid text-center">
+    <div class="col-sm-2 sidenav">
+
+        <p><a href="/product/new" class="btn btn-info btn-md">
+            <span class="glyphicon glyphicon-plus-sign"></span> Нова номенклатура</a>
+        </p>
+
+    </div>
+
+
+    <div class="col-sm-8 text-center" style="background-color:white">
+
+        <table class="table table-condensed text-center">
+            <thead style="padding: 7px">
+            <tr>
+                <th class="text-center"> Коротка назва</th>
+                <th class="text-center"> Повна назва</th>
+                <th class="text-center"> Категорії</th>
+                <th class="text-center"> Вхідна ціна</th>
+                <th class="text-center"> Гуртова ціна</th>
+                <th class="text-center"> Роздрібна ціна</th>
+                <th></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="product : ${productlist}">
+                <td th:text="${product.shortName}">Red chair</td>
+                <td th:text="${product.longName}">Red chair</td>
+                <td th:text="${product.categoryProducts}">Red chair</td>
+                <td th:text="${product.suplyPrice}">Red chair</td>
+                <td th:text="${product.price0}">Red chair</td>
+                <td th:text="${product.price}">Red chair</td>
+                <td><a class="btn btn-success btn-sm" data-toggle="modal" data-target="#editPrice"
+                       th:attr="data-productname=${product.shortName}, data-id=${product.id},
+                    data-pi=${product.suplyPrice}, data-pii=${product.price0}, data-piii=${product.price}"
+                >
+                    Редагувати
+                </a></td>
+                <!--<td><a class="btn btn-success btn-sm" th:href="@{'/product/editprice/'+${product.id}}">-->
+                <!--<span class="glyphicon glyphicon-edit">Редагувати</span></a></td>-->
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- Button trigger modal -->
+<!-- Modal -->
+<div class="modal fade" id="editPrice" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" th:action="@{'/product/prices'}" method="get">
+
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td><label for="priceinput1" class="control-label col-sm-8">Вхідна
+                                ціна:</label></td>
+                            <td>
+                                <input type="text" class="form-control" id="priceinput1"/>
+                                <input type="hidden" id="id"></input>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="priceinput2" class="control-label col-sm-8">Гуртова
+                                ціна:</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control col-sm-4" id="priceinput2"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="priceinput3" class="control-label col-sm-8">Роздрібна
+                                ціна:</label>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" id="priceinput3"/>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Відмінити</button>
+                <input type="submit" name="Зберегти зміни" value="Зберегти зміни" class="btn btn-info"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+<script type="text/javascript">
+    $('#editPrice').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var recipient = button.data('productname'); // Extract info from data-* attributes
+        var prodid = button.data('id'); // Extract info from data-* attributes
+        var price1 = button.data('pi'); // Extract info from data-* attributes
+        var price2 = button.data('pii'); // Extract info from data-* attributes
+        var price3 = button.data('piii'); // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this);
+        modal.find('.modal-title').text('Введіть ціни для ' + recipient);
+        modal.find('#id').val(prodid);
+        modal.find('#priceinput1').val(price1);
+        modal.find('#priceinput2').val(price2);
+        modal.find('#priceinput3').val(price3);
+//        modal.find('.modal-body input').val(recipient)
+    })
+</script>
+
+</html>

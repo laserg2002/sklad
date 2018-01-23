@@ -48,7 +48,7 @@ public class InvoiceOutController {
 
     public Order neworder;
 
-    @GetMapping("/orders")
+    @RequestMapping("/orderlist")
     public String showAllOrders(ModelMap model) {
         model.addAttribute("orderslist", orderService.findAll());
         return "sell/orderslist";
@@ -68,12 +68,13 @@ public class InvoiceOutController {
                                     @RequestParam(value = "salePrice", required = false) BigDecimal salePrice,
                                     @RequestParam(value = "saletype", required = false) String saleType,
 //                                    @ModelAttribute("neworder") Order neworder, BindingResult result,
-                                    ModelMap model){
+                                    ModelMap model
+    ){
             if (productid!=null){
                 SaleType sale = SaleType.fromString(saleType);
                 neworder.addOrderLines(new OrderLines(productService.findOne(productid), quantity, salePrice, sale));
             }
-            System.out.println("ddddddddddddd"+neworder);
+//            System.out.println("jjjjjjjjjddddddd"+neworder);
             model.addAttribute("neworder", neworder);
             return "sell/order";
         }
@@ -81,26 +82,17 @@ public class InvoiceOutController {
 
         @GetMapping("/edittodayorder/{id}")
         public String editOrder(@PathVariable(value = "id") Integer id, ModelMap model){
-            Order neworder = orderService.findOne(id);
-
-//            int i=1;
-//            for (SupplyLines sup:supplyList){
-//                invoiceLineDTO = new InvoiceLineDTO(i, sup.getProduct().getId(), sup.getQuantity(), sup.getProduct().getShortName(),
-//                        sup.getPrice());
-//                invoiceLineDTO.setInvoiceId(id);
-//                invoiceLineDTOS.add(invoiceLineDTO);
-//                i=+1;
-//            }
+            neworder = orderService.findOne(id);
             model.addAttribute("neworder", neworder);
-
-            return "sell/neworder";
+//            System.out.println("iiiiiiiiiddddddd"+neworder);
+            return "sell/order";
         }
 
 
         @RequestMapping("/delete/{id}")
         public String deleteOrder(@PathVariable(value = "id") Integer id1){
             orderService.delete(id1);
-            return "sell/orderslist";
+            return "redirect:sell/orderlist";
         }
 
 
@@ -114,7 +106,7 @@ public class InvoiceOutController {
                 ModelMap model) {
             neworder.setOrderDate(oDate);
             neworder.setCustomer(contragentService.findOne(customerid));
-//            model.addAttribute("neworder", neworder);
+//            System.out.println("vvvvvvvvv"+neworder);
             model.addAttribute("neworderline", new OrderLines());
             return "sell/addorderline";
         }
@@ -133,26 +125,28 @@ public class InvoiceOutController {
 //            return "redirect:/supply/product";
 //        }
 
-        @RequestMapping("/invoiceline/edit/{id}")
-        public String editOrderLine(@PathVariable("id") int id, @ModelAttribute Order neworder,
+        @RequestMapping("/orderline/edit/{id}")
+        public String editOrderLine(@PathVariable("id") int id,
+//                                    @ModelAttribute Order neworder,
                                ModelMap model) {
-//            invoiceLineDTO=invoiceLineDTOS.get(id-1);
+            OrderLines neworderline=neworder.getOrderLines().get(id-1);
 //            System.out.println("gggggggggg"+invoiceLineDTO);
-            model.addAttribute("neworder", neworder);
-            return "/sell/selectproduct";
+            model.addAttribute("neworderline", neworderline);
+            neworder.removeOrderLine(id-1);
+            return "sell/addorderline";
         }
 
         @RequestMapping(value="/addinvoice")
         public String addOrderPost(
                 @RequestParam("orderDate") @DateTimeFormat(pattern="yyyy-MM-dd") Date oDate,
-                @ModelAttribute("neworder") Order neworder,
-                                   BindingResult bindingResult,
-
+//                @ModelAttribute("neworder") Order neworder,
+//                                   BindingResult bindingResult,
                                    ModelMap model) {
+
+//            System.out.println("ddddddd"+neworder);
             neworder.setOrderDate(oDate);
-            System.out.println("ddddddd"+neworder);
-//            orderService.addOrder(neworder);
-            return  "rdirect:/sell";
+            orderService.addOrder(neworder);
+            return  "redirect:/sell/orderlist";
         }
 
 

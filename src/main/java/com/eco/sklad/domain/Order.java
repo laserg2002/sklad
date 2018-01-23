@@ -24,7 +24,8 @@ public class Order {
 
     private BigDecimal totalOrder;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name="order_id")
     private List<OrderLines> orderLines = new ArrayList<>();
 
     private String managerName;
@@ -58,6 +59,16 @@ public class Order {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public BigDecimal calculateTotal() {
+        BigDecimal total = new BigDecimal(0);
+            if (!orderLines.isEmpty()){
+                for (OrderLines line: orderLines) {
+                    total=total.add(line.getTotal());
+                }
+            }
+        return total;
     }
 
 
@@ -98,6 +109,12 @@ public class Order {
         return orderLines;
     }
 
+//    public OrderLines getOrderLine() {
+//
+//        return orderLines;
+//    }
+
+
     public void setOrderLines(List<OrderLines> orderLines) {
         this.orderLines = orderLines;
     }
@@ -115,9 +132,9 @@ public class Order {
         return "Order{" +
                 "id=" + id +
                 ", orderDate=" + orderDate +
-                ", customer=" + customer +
+                ", customer=" + customer.getId() +
                 ", totalOrder=" + totalOrder +
-                ", orderLines=" + orderLines +
+                ", orderLines=" + orderLines.size() +
                 ", salesManager=" + managerName +
                 '}';
     }

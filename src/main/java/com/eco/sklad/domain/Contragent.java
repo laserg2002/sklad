@@ -26,6 +26,8 @@ public class Contragent {
     private String companyName;
     private String managerName;
 
+    private Double totalBalance;
+
     private Boolean allowMinus=false;
     private int balansCredit=0;
 
@@ -116,6 +118,38 @@ public class Contragent {
 //        return Optional.ofNullable(this.user);
 //    }
 
+
+    public Double getTotalBalance() {
+        return totalBalance;
+    }
+
+    public void setTotalBalance(Double totalBalance) {
+        this.totalBalance = totalBalance;
+    }
+
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
+    }
+
+    public List<Pko> getPkoList() {
+        return pkoList;
+    }
+
+    public void setPkoList(List<Pko> pkoList) {
+        this.pkoList = pkoList;
+    }
+
+    public List<Rko> getRkoList() {
+        return rkoList;
+    }
+
+    public void setRkoList(List<Rko> rkoList) {
+        this.rkoList = rkoList;
+    }
 
     public String getManagerName() {
         return managerName;
