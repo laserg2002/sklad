@@ -1,8 +1,7 @@
 package com.eco.sklad.web;
 
 import com.eco.sklad.domain.*;
-import com.eco.sklad.service.ContragentService;
-import com.eco.sklad.service.JournalService;
+import com.eco.sklad.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +19,18 @@ public class JournalController {
         JournalService journalService;
 
         @Autowired
+        PKOService pkoService;
+
+        @Autowired
+        SuppliesService suppliesService;
+
+        @Autowired
+        RKOService rkoService;
+
+        @Autowired
+        OrderService orderService;
+
+        @Autowired
         ContragentService contragentService;
 
         @GetMapping
@@ -28,22 +39,41 @@ public class JournalController {
             return "journal/journal";
         }
 
-//        @GetMapping("/selectbymanager")
-//         public String showAllManagerPkos(Pko pko, Model model) {
-//         model.addAttribute("pkolist", pkoService.findAllByManager());
-//            return "pko/pkolist";
-//        }
-//
-//        @RequestMapping("/edit/{id}")
-//        public String showPkoForm(@PathVariable("id") Integer id, ModelMap model) {
-//            Pko pko = pkoService.findOne(id);
-//            pko.setPkoid(pko.getId());
-//            System.out.println("hhhhhhhhhhhh"+pko);
-//            model.addAttribute("pko", pko);
-//            return "pko/pkoform";
-//        }
-//
-//
+        @GetMapping (value="/showpko/{id}")
+        @ResponseBody
+         public Pko showPko(@PathVariable int id) {
+            System.out.println("vvvvvvvvv"+id);
+            return pkoService.findOne(id);
+        }
+
+        @GetMapping (value="/showrko/{id}")
+        @ResponseBody
+        public Rko showRko(@PathVariable int id) {
+            return rkoService.findOne(id);
+        }
+
+        @GetMapping (value="/showii/{id}")
+        @ResponseBody
+        public Supplies showInvoice(@PathVariable int id) {
+            System.out.println("xxxxxxxxx"+id);
+            return suppliesService.findOne(id);
+        }
+
+        @GetMapping (value="/showoo/{id}")
+        @ResponseBody
+        public Order showOrder(@PathVariable int id) {
+            return orderService.findOne(id);
+        }
+
+
+
+
+
+
+
+
+
+
 //        @GetMapping("/new")
 //        public String addPkoForm(ModelMap model) {
 //            Pko pko = new Pko();

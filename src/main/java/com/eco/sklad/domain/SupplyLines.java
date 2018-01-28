@@ -1,5 +1,7 @@
 package com.eco.sklad.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.annotation.Generated;
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -10,6 +12,7 @@ public class SupplyLines {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    @JsonIgnore
     @ManyToOne
     private Supplies supply;
 

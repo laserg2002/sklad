@@ -23,6 +23,7 @@
                 <th class="text-center"> Дата </th>
                 <th class="text-center"> Менеджер </th>
                 <th>      </th>
+
             </tr>
             </thead>
             <tbody>
@@ -32,13 +33,121 @@
                 <td th:text="${journal.debet}">Red chair</td>
                 <td th:text="${#dates.format(journal.date,'dd-MMM-yyyy')}">Red chair</td>
                 <td th:text="${journal.managerName}">Red chair</td>
-                <td><a th:href="@{'/journal/edit/'+${journal.journalKeyId}}">
-                    <span class="glyphicon glyphicon-list"></span></a></td>
-
+                <td th:switch="${journal.journalKeyId.doc}">
+                    <a th:case="'Прихідний касовий ордер'" href="#" th:name="'/journal/showpko/'+${journal.journalKeyId.docId}"
+                       th:id="callpko"  data-toggle="modal" data-target="#showpko">
+                        <span class="glyphicon glyphicon-list"></span></a>
+                    <a th:case="'Розхідний касовий ордер'" th:href="@{'/journal/showrko/'+${journal.journalKeyId.docId}}"
+                       th:id="callrko">
+                        <span class="glyphicon glyphicon-list"></span></a>
+                    <a th:case="'Прихідна накладна'" th:href="@{'/journal/showii/'+${journal.journalKeyId.docId}}"
+                       th:id="callii">
+                        <span class="glyphicon glyphicon-list"></span></a>
+                    <a th:case="'Видаткова накладна'" th:href="@{'/journal/showoo/'+${journal.journalKeyId.docId}}"
+                       th:id="calloo" data-toggle="modal" data-target="#showpko">
+                        <span class="glyphicon glyphicon-list"></span></a>
+                </td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="showpko" tabindex="-1" role="dialog" aria-labelledby="showpkoLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!--<form id="myForm" class="form-horizontal" th:action="@{'addprices'}" method="post">-->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="showpkoLabel">Прихідний касовий ордер</h4>
+                </div>
+                <div class="modal-body" id="showpko1">
+                    <table class="table-striped">
+                        <tbody>
+                        <tr><td>Назва баланса :</td>
+                            <td><span type="text" id="f1" class="form-control" value=""/></td></tr>
+                        <tr><td>Назва баланса :</td>
+                            <td><span type="text" id="f2" class="form-control"/></td></tr>
+                        <tr><td>Назва баланса :</td>
+                            <td><span type="text"  id="f3" class="form-control"/></td></tr>
+                         <tr><td>Назва баланса :</td>
+                            <td><span type="text"  id="f4" class="form-control"/></td></tr>
+                         <tr><td>Назва баланса :</td>
+                            <td><span type="text"  id="f5" class="form-control"/></td></tr>
+                         <tr><td>Назва баланса :</td>
+                            <td><span type="text"  id="f6" class="form-control"/></td></tr>
+                         <tr><td>Назва баланса :</td>
+                            <td><span type="text"  id="f7" class="form-control"/></td></tr>
+                         <tr><td>Назва баланса :</td>
+                            <td><span type="text"  id="f8" class="form-control"/></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                </div>
+        </div>
+    </div>
+</div>
+
 </body>
+
+<script type="text/javascript">
+    $('#callpko').on('click', function (e) {
+        var button = $(e.relatedTarget); // Button that triggered the modal
+        var json="null";
+        $.ajax({
+            url: $(this).attr('name'),
+//            data: {},
+            type: "GET",
+            cache: "false",
+            dataType: "json"
+        })
+            .done(function( json ) {
+                $('#showpko').modal();
+                $('#showpko').find('#f1').text(json.contragent.balansName);
+                $('#showpko').find('#f2').text(json.pkoDate);
+                $('#showpko').find('#f3').text(json.usdAmount);
+                $('#showpko').find('#f4').text(json.uahAmount);
+                $('#showpko').find('#f5').text(json.euroAmount);
+                $('#showpko').find('#f6').text(json.pkoAmount);
+                $('#showpko').find('#f7').text(json.managerName);
+                $('#showpko').find('#f8').text(json.comments);
+//        modal.find('#priceinput1').val(price1);
+//        modal.find('#priceinput2').val(price2);
+//        modal.find('#priceinput3').val(price3);
+            })
+            .fail(function( xhr, status, errorThrown ) {
+                alert( "Sorry, there was a problem!" );
+                console.log( "Error: " + errorThrown );
+                console.log( "Status: " + status );
+                console.dir( xhr );
+            })
+            .always(function( xhr, status ) {
+                alert( "The request is complete!" );
+
+            });
+
+//        $.getJSON( $('#callpko').attr('href'), function( pko ){
+//            alert(pko.contragent.balanceName);
+//            $('#f1').text(pko.contragent.balanceName);
+//            $('#showpko').modal;
+
+//    });
+
+//        modal.find('.modal-title').text('Введіть ціни для ' + recipient);
+//        modal.find('#id').val(prodid);
+//        modal.find('#priceinput1').val(price1);
+//        modal.find('#priceinput2').val(price2);
+//        modal.find('#priceinput3').val(price3);
+    });
+//    $(".modal").on("hidden.bs.modal", function() {
+//        $(".modal-body").html("?!?!?!");
+//    });
+
+
+
+</script>
 </html>

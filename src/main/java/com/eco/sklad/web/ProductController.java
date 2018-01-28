@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,6 +51,20 @@ public class ProductController {
     @RequestMapping("/prices")
     public String showProductPrices(Product product, Model model) {
         model.addAttribute("productlist", productService.findAll());
+        return "product/productprices";
+    }
+
+    @RequestMapping("/addprices")
+    public String editProductPrices(@RequestParam("id") Integer productid,
+                                    @RequestParam("p1") Double price1,
+                                    @RequestParam("p2") Double price2,
+                                    @RequestParam("p3") Double price3,
+                                    Model model) {
+        Product product1 = productService.findOne(productid);
+        product1.setSuplyPrice(new BigDecimal(price1));
+        product1.setPrice0(new BigDecimal(price2));
+        product1.setPrice(new BigDecimal(price3));
+        productService.addProduct(product1);
         return "product/productprices";
     }
 

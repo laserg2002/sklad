@@ -1,5 +1,6 @@
 package com.eco.sklad.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
@@ -38,6 +39,11 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ProductsOnStock> productsOnStocks = new ArrayList<>();
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<OrderLines> ordersLinesList = new ArrayList<>();
+
+    @JsonIgnore
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<SupplyLines> supplyLinesList = new ArrayList<>();
 
@@ -57,6 +63,13 @@ public class Product {
         this.price0 = price0;
     }
 
+    public List<OrderLines> getOrdersLinesList() {
+        return ordersLinesList;
+    }
+
+    public void setOrdersLinesList(List<OrderLines> ordersLinesList) {
+        this.ordersLinesList = ordersLinesList;
+    }
 
     public BigDecimal getSuplyPrice() {
         return suplyPrice;

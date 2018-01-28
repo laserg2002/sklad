@@ -1,5 +1,6 @@
 package com.eco.sklad.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import groovy.transform.Field;
 import org.hibernate.annotations.NaturalId;
 //import org.springframework.data.annotation.Id;
@@ -27,9 +28,11 @@ public class Producer {
     @Column(name="pr_category")
     private String categoryProducer;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "producer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Product> products = new ArrayList<>();
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id", updatable=true, insertable=true)
     private Country country;

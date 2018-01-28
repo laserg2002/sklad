@@ -4,8 +4,9 @@
       xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8"/>
-     
+    <!-- <script type="text/javascript" th:src="@{js/main.js}"/>-->
     <title>Список номенклатури</title>
+    <!--<script src="/js/main.js"></script>-->
 </head>
 <body style="background-color:lightcyan">
 <div th:replace="header"> content here</div>
@@ -26,7 +27,7 @@
 
     <div class="col-sm-8 text-center" style="background-color:white">
 
-        <table class="table table-condensed text-center">
+        <table class="table table-condensed text-center" id="mainTable">
             <thead style="padding: 7px">
             <tr>
                 <th class="text-center"> Коротка назва</th>
@@ -40,19 +41,17 @@
             </thead>
 
             <tbody>
-            <tr th:each="product : ${productlist}">
+            <tr th:attr="id=${product.id}" th:each="product : ${productlist}">
                 <td th:text="${product.shortName}">Red chair</td>
                 <td th:text="${product.longName}">Red chair</td>
                 <td th:text="${product.categoryProducts}">Red chair</td>
-                <td th:text="${product.suplyPrice}">Red chair</td>
-                <td th:text="${product.price0}">Red chair</td>
-                <td th:text="${product.price}">Red chair</td>
-                <td><a class="btn btn-success btn-sm" data-toggle="modal" data-target="#editPrice"
+                <td id="price11" th:text="${product.suplyPrice}">Red chair</td>
+                <td id="price12" th:text="${product.price0}">Red chair</td>
+                <td id="price13" th:text="${product.price}">Red chair</td>
+                <td><a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editPrice"
                        th:attr="data-productname=${product.shortName}, data-id=${product.id},
                     data-pi=${product.suplyPrice}, data-pii=${product.price0}, data-piii=${product.price}"
-                >
-                    Редагувати
-                </a></td>
+                >Редагувати</a></td>
                 <!--<td><a class="btn btn-success btn-sm" th:href="@{'/product/editprice/'+${product.id}}">-->
                 <!--<span class="glyphicon glyphicon-edit">Редагувати</span></a></td>-->
             </tr>
@@ -62,22 +61,24 @@
 </div>
 <!-- Button trigger modal -->
 <!-- Modal -->
-<div class="modal fade" id="editPrice" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="editPrice" tabindex="-1" role="dialog" aria-labelledby="editPriceLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                        aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal" th:action="@{'/product/prices'}" method="get">
+            <form id="myForm" class="form-horizontal" th:action="@{'addprices'}" method="post">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="editPriceLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+
+                    <!--<form id="myForm" class="form-horizontal" th:action="@{'addprices'}" method="post">-->
 
                     <table>
                         <tbody>
                         <tr>
-                            <td><label for="priceinput1" class="control-label col-sm-8">Вхідна
-                                ціна:</label></td>
+                            <td><label for="priceinput1" class="control-label col-sm-8">Вхідна ціна:</label></td>
                             <td>
                                 <input type="text" class="form-control" id="priceinput1"/>
                                 <input type="hidden" id="id"></input>
@@ -85,16 +86,14 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><label for="priceinput2" class="control-label col-sm-8">Гуртова
-                                ціна:</label>
+                            <td><label for="priceinput2" class="control-label col-sm-8">Гуртова ціна:</label>
                             </td>
                             <td>
                                 <input type="text" class="form-control col-sm-4" id="priceinput2"/>
                             </td>
                         </tr>
                         <tr>
-                            <td><label for="priceinput3" class="control-label col-sm-8">Роздрібна
-                                ціна:</label>
+                            <td><label for="priceinput3" class="control-label col-sm-8">Роздрібна ціна:</label>
                             </td>
                             <td>
                                 <input type="text" class="form-control" id="priceinput3"/>
@@ -102,19 +101,58 @@
                         </tr>
                         </tbody>
                     </table>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Відмінити</button>
-                <input type="submit" name="Зберегти зміни" value="Зберегти зміни" class="btn btn-info"/>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Відмінити</button>
+                    <button id="submit" type="submit" class="btn btn-info">Зберегти зміни</button>
+                </div>
+            </form>
+
         </div>
     </div>
 </div>
 
+
 </body>
 
 <script type="text/javascript">
+    function formSubmit() {
+        var name = document.getElementById("priceinput1").value;
+        var message = document.getElementById("priceinput2").value;
+        var dataString = 'name=' + priceinput1;
+        jQuery.ajax({
+            url: "product/price",
+            data: dataString,
+            type: "POST",
+            success: function (data) {
+                $("#myForm").html(data);
+            },
+            error: function () {
+            }
+        });
+        return true;
+    }
+
+
+</script>
+
+<script type="text/javascript">
+    $('#submit').on('click', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'post',
+            url: 'addprices',
+            data: 'id=' + $('#id').val() + '\u0026' + 'p1=' + $('#priceinput1').val() + '\u0026' + 'p2=' + $('#priceinput2').val() + '\u0026' + 'p3=' + $('#priceinput3').val() + '',
+            success: function () {
+                var row = '#' + $('#id').val();
+                $(row).find('#price11').text($('#priceinput1').val());
+                $(row).find('#price12').text($('#priceinput2').val());
+                $(row).find('#price13').text($('#priceinput3').val());
+                $('#editPrice').modal('hide');
+            }
+        });
+        $('#editPrice').modal('hide');
+    });
     $('#editPrice').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget); // Button that triggered the modal
         var recipient = button.data('productname'); // Extract info from data-* attributes
@@ -122,16 +160,15 @@
         var price1 = button.data('pi'); // Extract info from data-* attributes
         var price2 = button.data('pii'); // Extract info from data-* attributes
         var price3 = button.data('piii'); // Extract info from data-* attributes
-        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
         var modal = $(this);
         modal.find('.modal-title').text('Введіть ціни для ' + recipient);
         modal.find('#id').val(prodid);
         modal.find('#priceinput1').val(price1);
         modal.find('#priceinput2').val(price2);
         modal.find('#priceinput3').val(price3);
-//        modal.find('.modal-body input').val(recipient)
     })
+
+
 </script>
 
 </html>

@@ -1,6 +1,9 @@
 package com.eco.sklad.domain;
 
 import com.eco.sklad.DTO.UserDTO;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.LazyToOne;
 import org.hibernate.annotations.LazyToOneOption;
 import org.hibernate.annotations.NaturalId;
@@ -34,17 +37,22 @@ public class Contragent {
     @OneToOne
             (optional = true, fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
+    @JsonBackReference
     private User user;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "supplier", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Supplies> suppliesList = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "customer", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Order> orderList = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "contragent", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Pko> pkoList = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "contragent", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Rko> rkoList = new ArrayList<>();
 

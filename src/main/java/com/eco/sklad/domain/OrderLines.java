@@ -1,7 +1,11 @@
 package com.eco.sklad.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class OrderLines {
@@ -9,6 +13,10 @@ public class OrderLines {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<SupplyLines> supplyLinesList = new ArrayList<>();
+
+    @JsonIgnore
     @ManyToOne
     private Order order;
 

@@ -1,5 +1,8 @@
 package com.eco.sklad.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.LazyToOne;
 import org.hibernate.annotations.LazyToOneOption;
 import org.hibernate.annotations.NaturalId;
@@ -32,6 +35,7 @@ public class User implements UserDetails{
             orphanRemoval = false,
             cascade = {PERSIST, MERGE, REFRESH, DETACH},
             fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Contragent contragent;
 
     @OneToOne(
