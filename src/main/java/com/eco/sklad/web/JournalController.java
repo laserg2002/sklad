@@ -42,7 +42,6 @@ public class JournalController {
         @GetMapping (value="/showpko/{id}")
         @ResponseBody
          public Pko showPko(@PathVariable int id) {
-            System.out.println("vvvvvvvvv"+id);
             return pkoService.findOne(id);
         }
 
@@ -55,7 +54,6 @@ public class JournalController {
         @GetMapping (value="/showii/{id}")
         @ResponseBody
         public Supplies showInvoice(@PathVariable int id) {
-            System.out.println("xxxxxxxxx"+id);
             return suppliesService.findOne(id);
         }
 

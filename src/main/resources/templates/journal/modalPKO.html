@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+
+<!-- Modal -->
+<div class="modal fade" id="showrko" tabindex="-1" role="dialog" aria-labelledby="showrkoLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!--<form id="myForm" class="form-horizontal" th:action="@{'addprices'}" method="post">-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="showrkoLabel">Розхідний касовий ордер</h4>
+            </div>
+            <div class="modal-body" id="showrko1">
+                <table class="table">
+                    <tbody style=" padding:1px">
+                    <tr><td width="40%" style="text-align: right; margin:6px">Назва баланса </td>
+                        <td width="50%"><span type="text" id="r1" class="form-control" value=""/></td></tr>
+                    <tr><td style="text-align: right; margin:6px">Дата платежа </td>
+                        <td><span type="text" id="r2" class="form-control"/></td></tr>
+                    <tr><td style="text-align: right; margin-right:6px">Форма оплати </td>
+                        <td><span type="text" id="r3" class="form-control"/></td></tr>
+                    <tr><td style="text-align: right; margin-right:6px">Вид платежа </td>
+                        <td><span type="text" id="r4" class="form-control"/></td></tr>
+                    <tr><td style="text-align: right; margin-right:6px">Сума платежа в USD </td>
+                        <td><span type="text"  id="r5" class="form-control"/></td></tr>
+                    <tr><td style="text-align: right; margin-right:6px">Сума платежа в грн </td>
+                        <td><span type="text"  id="r6" class="form-control"/></td></tr>
+                    <tr><td style="text-align: right; margin-right:6px">Сума платежа в Еuro </td>
+                        <td><span type="text"  id="r7" class="form-control"/></td></tr>
+                    <tr><td style="text-align: right; margin-right:6px">Загальна сума РКО в USD </td>
+                        <td><span type="text"  id="r8" class="form-control"/></td></tr>
+                    <tr><td style="text-align: right; margin-right:6px">Менеджер </td>
+                        <td><span type="text"  id="r9" class="form-control"/></td></tr>
+                    <tr><td style="text-align: right; margin-right:6px">Коментар </td>
+                        <td><span type="text"  id="r10" class="form-control"/></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

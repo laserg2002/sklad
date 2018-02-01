@@ -35,16 +35,16 @@
                 <td th:text="${journal.managerName}">Red chair</td>
                 <td th:switch="${journal.journalKeyId.doc}">
                     <a th:case="'Прихідний касовий ордер'" href="#" th:name="'/journal/showpko/'+${journal.journalKeyId.docId}"
-                       th:id="callpko"  data-toggle="modal" data-target="#showpko">
+                       th:class="callpko">
                         <span class="glyphicon glyphicon-list"></span></a>
-                    <a th:case="'Розхідний касовий ордер'" th:href="@{'/journal/showrko/'+${journal.journalKeyId.docId}}"
-                       th:id="callrko">
+                    <a th:case="'Розхідний касовий ордер'" href="#" th:name="'/journal/showrko/'+${journal.journalKeyId.docId}"
+                       th:class="callrko">
                         <span class="glyphicon glyphicon-list"></span></a>
-                    <a th:case="'Прихідна накладна'" th:href="@{'/journal/showii/'+${journal.journalKeyId.docId}}"
-                       th:id="callii">
+                    <a th:case="'Прихідна накладна'" href="#" th:name="'/journal/showii/'+${journal.journalKeyId.docId}"
+                       th:class="callii">
                         <span class="glyphicon glyphicon-list"></span></a>
-                    <a th:case="'Видаткова накладна'" th:href="@{'/journal/showoo/'+${journal.journalKeyId.docId}}"
-                       th:id="calloo" data-toggle="modal" data-target="#showpko">
+                    <a th:case="'Видаткова накладна'" href="#" th:name="'/journal/showoo/'+${journal.journalKeyId.docId}"
+                       th:class="calloo">
                         <span class="glyphicon glyphicon-list"></span></a>
                 </td>
             </tr>
@@ -52,6 +52,11 @@
         </table>
     </div>
 </div>
+
+
+<div th:replace="journal/modalPKO"> content here </div>
+<div th:replace="journal/modalOO"> content here </div>
+<div th:replace="journal/modalII"> content here </div>
 
 <!-- Modal -->
 <div class="modal fade" id="showpko" tabindex="-1" role="dialog" aria-labelledby="showpkoLabel">
@@ -64,29 +69,33 @@
                     <h4 class="modal-title" id="showpkoLabel">Прихідний касовий ордер</h4>
                 </div>
                 <div class="modal-body" id="showpko1">
-                    <table class="table-striped">
-                        <tbody>
-                        <tr><td>Назва баланса :</td>
-                            <td><span type="text" id="f1" class="form-control" value=""/></td></tr>
-                        <tr><td>Назва баланса :</td>
+                    <table class="table">
+                        <tbody style=" padding:1px">
+                        <tr><td width="40%" style="text-align: right; margin:6px">Назва баланса </td>
+                            <td width="50%"><span type="text" id="f1" class="form-control" value=""/></td></tr>
+                        <tr><td style="text-align: right; margin:6px">Дата платежа </td>
                             <td><span type="text" id="f2" class="form-control"/></td></tr>
-                        <tr><td>Назва баланса :</td>
+                        <tr><td style="text-align: right; margin-right:6px">Форма оплати </td>
+                            <td><span type="text" id="f21" class="form-control"/></td></tr>
+                        <tr><td style="text-align: right; margin-right:6px">Вид платежа </td>
+                            <td><span type="text" id="f22" class="form-control"/></td></tr>
+                        <tr><td style="text-align: right; margin-right:6px">Сума платежа в USD </td>
                             <td><span type="text"  id="f3" class="form-control"/></td></tr>
-                         <tr><td>Назва баланса :</td>
+                         <tr><td style="text-align: right; margin-right:6px">Сума платежа в грн </td>
                             <td><span type="text"  id="f4" class="form-control"/></td></tr>
-                         <tr><td>Назва баланса :</td>
+                         <tr><td style="text-align: right; margin-right:6px">Сума платежа в Еuro </td>
                             <td><span type="text"  id="f5" class="form-control"/></td></tr>
-                         <tr><td>Назва баланса :</td>
+                         <tr><td style="text-align: right; margin-right:6px">Загальна сума ПКО в USD </td>
                             <td><span type="text"  id="f6" class="form-control"/></td></tr>
-                         <tr><td>Назва баланса :</td>
+                         <tr><td style="text-align: right; margin-right:6px">Менеджер </td>
                             <td><span type="text"  id="f7" class="form-control"/></td></tr>
-                         <tr><td>Назва баланса :</td>
+                         <tr><td style="text-align: right; margin-right:6px">Коментар </td>
                             <td><span type="text"  id="f8" class="form-control"/></td></tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">OK</button>
                 </div>
         </div>
     </div>
@@ -95,9 +104,9 @@
 </body>
 
 <script type="text/javascript">
-    $('#callpko').on('click', function (e) {
-        var button = $(e.relatedTarget); // Button that triggered the modal
-        var json="null";
+    $('.callpko').on('click', function () {
+//        var json="null";
+//        alert( $(this).attr('name') );
         $.ajax({
             url: $(this).attr('name'),
 //            data: {},
@@ -109,6 +118,8 @@
                 $('#showpko').modal();
                 $('#showpko').find('#f1').text(json.contragent.balansName);
                 $('#showpko').find('#f2').text(json.pkoDate);
+                $('#showpko').find('#f21').text(json.paymentType);
+                $('#showpko').find('#f22').text(json.cassaOperation);
                 $('#showpko').find('#f3').text(json.usdAmount);
                 $('#showpko').find('#f4').text(json.uahAmount);
                 $('#showpko').find('#f5').text(json.euroAmount);
@@ -126,7 +137,7 @@
                 console.dir( xhr );
             })
             .always(function( xhr, status ) {
-                alert( "The request is complete!" );
+//                alert( "The request is complete!" );
 
             });
 
@@ -146,6 +157,103 @@
 //    $(".modal").on("hidden.bs.modal", function() {
 //        $(".modal-body").html("?!?!?!");
 //    });
+    // //////////////////////////////////////////////////////////////////
+    $('.callrko').on('click', function () {
+        $.ajax({
+            url: $(this).attr('name'),
+            type: "GET",
+            cache: "false",
+            dataType: "json"
+        })
+            .done(function( json ) {
+                $('#showrko').modal();
+                $('#showrko').find('#r1').text(json.contragent.balansName);
+                $('#showrko').find('#r2').text(json.rkoDate);
+                $('#showrko').find('#r3').text(json.paymentType);
+                $('#showrko').find('#r4').text(json.paymentOperation);
+                $('#showrko').find('#r5').text(json.usdAmount);
+                $('#showrko').find('#r6').text(json.uahAmount);
+                $('#showrko').find('#r7').text(json.euroAmount);
+                $('#showrko').find('#r8').text(json.rkoAmount);
+                $('#showrko').find('#r9').text(json.managerName);
+                $('#showrko').find('#r10').text(json.comments);
+            })
+            .fail(function( xhr, status, errorThrown ) {
+                alert( "Sorry, there was a problem!" );
+                console.log( "Error: " + errorThrown );
+                console.log( "Status: " + status );
+                console.dir( xhr );
+            })
+            .always(function( xhr, status ) {
+            });
+    });///////////////////////////////////////////////////////////////////
+
+    // //////////////////////////////////////////////////////////////////
+    $('.calloo').on('click', function () {
+        $('.olines').remove();
+        $.ajax({
+            url: $(this).attr('name'),
+            type: "GET",
+            cache: "false",
+            dataType: "json"
+        })
+            .done(function( json ) {
+                $('#showoo').modal();
+                $('#showoo1').find('#o1').text(json.customer.balansName);
+                $('#showoo1').find('#o2').text(json.orderDate);
+                $('#showoo1').find('#o3').text(json.managerName);
+                $('#showoo1').find('#o4').text(json.totalOrder);
+                $.each(json.orderLines, function () {
+                    var line = $( '<tr class="olines"><td>'+this.product.shortName+"</td><td>"+ this.salePrice+
+                        "</td><td>"+this.quantity+"</td><td>"+(this.quantity*this.salePrice)+"</td></tr>");
+                    line.insertAfter('#troo');
+                });
+
+            })
+            .fail(function( xhr, status, errorThrown ) {
+                alert( "Sorry, there was a problem!" );
+                console.log( "Error: " + errorThrown );
+                console.log( "Status: " + status );
+                console.dir( xhr );
+            })
+            .always(function( xhr, status ) {
+            });
+    });///////////////////////////////////////////////////////////////////
+
+    // //////////////////////////////////////////////////////////////////
+    $('.callii').on('click', function () {
+        $('.ilines').remove();
+        $.ajax({
+            url: $(this).attr('name'),
+            type: "GET",
+            cache: "false",
+            dataType: "json"
+        })
+            .done(function( json ) {
+                $('#showii').modal();
+                $('#showii1').find('#i1').text(json.supplier.balansName);
+                $('#showii1').find('#i2').text(json.dateOfSupply);
+                $('#showii1').find('#i3').text(json.managerName);
+                $('#showii1').find('#i4').text(json.total);
+                $.each(json.supplyList, function () {
+                    var line = $( '<tr class="ilines"><td>'+this.product.shortName+"</td><td>"+ this.price+
+                        "</td><td>"+this.quantity+"</td><td>"+(this.quantity*this.price)+"</td></tr>");
+                    line.insertAfter('#trii');
+            })
+            .fail(function( xhr, status, errorThrown ) {
+                alert( "Sorry, there was a problem!" );
+                console.log( "Error: " + errorThrown );
+                console.log( "Status: " + status );
+                console.dir( xhr );
+            })
+            .always(function( xhr, status ) {
+            });
+    }); })
+
+        ///////////////////////////////////////////////////////////////////
+
+
+
 
 
 
